@@ -16,7 +16,7 @@ google-auth-httplib2>=0.1.0
 google-auth-oauthlib>=0.4.0
 
 # Web Framework & Frontend
-flask>=2.0.0
+
 streamlit>=1.0.0
 jinja2>=3.0.0
 
@@ -34,11 +34,10 @@ deepl==1.16.0
 googletrans>=3.0.0
 
 # Testing
-pytest>=6.2.0
+serpapi==0.4.1
+
 
 # Development
-black>=21.5b2
-flake8>=3.9.0
-isort>=5.9.0
+
 undetected-chromedriver
 instagram_private_api
