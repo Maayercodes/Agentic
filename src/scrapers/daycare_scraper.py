@@ -61,7 +61,7 @@ def add_missing_columns(engine):
         "updated_at": "TIMESTAMP"
     }
 
-    with engine.connect() as conn:
+    with engine.begin() as conn:  # ensures commit
         for col_name, col_type in column_types.items():
             if col_name not in existing_cols:
                 alter = f'ALTER TABLE daycares ADD COLUMN {col_name} {col_type}'
