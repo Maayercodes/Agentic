@@ -24,9 +24,10 @@ if not db_url:
 # --- Setup SQLAlchemy ---
 Base = declarative_base()
 engine = create_engine(db_url)
+# ✅ Automatically create tables if they don't exist
+Base.metadata.create_all(engine)
 SessionLocal = sessionmaker(bind=engine)
 
-Base.metadata.create_all(bind=engine)
 
 # --- Define table structure ---
 class Daycare(Base):
