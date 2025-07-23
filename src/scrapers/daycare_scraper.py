@@ -6,9 +6,7 @@ from sqlalchemy import (
     create_engine, Column, Integer, String, Float, Boolean,
     DateTime, text, inspect
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import ProgrammingError
+from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
 
 # --- Load environment variables ---
@@ -24,23 +22,7 @@ if not db_url:
 # --- Setup SQLAlchemy ---
 Base = declarative_base()
 engine = create_engine(db_url, pool_pre_ping=True)
-
-# ✅ Automatically create tables if they don't exist
-try:
-    # First check if the table exists
-    inspector = inspect(engine)
-    if 'daycares' not in inspector.get_table_names():
-        print("Creating 'daycares' table as it doesn't exist")
-        Base.metadata.create_all(engine)
-    else:
-        print("'daycares' table already exists")
-except Exception as e:
-    print(f"Error checking/creating tables: {e}")
-    # Force table creation as fallback
-    Base.metadata.create_all(engine)
-
 SessionLocal = sessionmaker(bind=engine)
-
 
 # --- Define table structure ---
 class Daycare(Base):
@@ -85,13 +67,9 @@ def add_missing_columns(engine):
 
 add_missing_columns(engine)
 
-
 # --- Boolean cleaner ---
 def boolify(value):
-    if value in [True, "true", "True", 1, "1"]:
-        return True
-    return False
-
+    return value in [True, "true", "True", 1, "1"]
 
 # --- Helper to convert city to lat,lng ---
 def get_city_lat_lng(city):
@@ -109,7 +87,6 @@ def get_city_lat_lng(city):
     except Exception as e:
         print(f"❌ Failed to get lat/lng for city {city}: {e}")
     return None
-
 
 # --- Scraper Class ---
 class DaycareGoogleMapsScraper:
@@ -142,14 +119,14 @@ class DaycareGoogleMapsScraper:
                 print(f"✅ Found {len(results['local_results'])} local results.")
                 for place in results["local_results"][:num_results]:
                     daycare = {
-                    "name": place.get("title"),
-                    "address": place.get("address"),
-                    "phone": place.get("phone"),
-                    "rating": place.get("rating"),
-                    "reviews": place.get("reviews"),
-                    "email": place.get("email"),  # Attempt to get email directly from API response
-                    "website": place.get("website")  # Also get website for fallback
-                }
+                        "name": place.get("title"),
+                        "address": place.get("address"),
+                        "phone": place.get("phone"),
+                        "rating": place.get("rating"),
+                        "reviews": place.get("reviews"),
+                        "email": place.get("email"),
+                        "website": place.get("website")
+                    }
                     daycares.append(daycare)
             else:
                 print("⚠️ No local_results found in API response.")
@@ -201,16 +178,13 @@ class DaycareGoogleMapsScraper:
                 print(f"⚠️ Skipping city {city} due to missing coordinates.")
         return all_results
 
-
     def scrape_email_from_website(self, website_url: str) -> str:
-        """Fallback method to scrape email from the business website and common subpages with retries, increased timeout, and URL sanitization."""
         import time
         import re
         from urllib.parse import urlparse, urlunparse, parse_qs, urljoin
 
         def sanitize_url(url):
             parsed = urlparse(url)
-            # Remove common tracking query parameters
             query = parse_qs(parsed.query)
             filtered_query = {k: v for k, v in query.items() if not k.lower().startswith(('utm_', 'fbclid', 'gclid'))}
             new_query = '&'.join([f'{k}={v[0]}' for k, v in filtered_query.items()])
@@ -221,61 +195,56 @@ class DaycareGoogleMapsScraper:
             max_retries = 3
             timeout = 15
             sanitized = sanitize_url(url)
-            headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"}
+            headers = {"User-Agent": "Mozilla/5.0"}
             for attempt in range(1, max_retries + 1):
                 try:
                     response = requests.get(sanitized, timeout=timeout, headers=headers)
                     if response.status_code == 200:
-                        email_pattern = r'[\w\.-]+@[\w\.-]+\.[\w]{2,}'
-                        match = re.search(email_pattern, response.text)
+                        match = re.search(r'[\w\.-]+@[\w\.-]+\.[\w]{2,}', response.text)
                         if match:
                             return match.group(0)
                         else:
-                            print(f"\u26a0\ufe0f No email found on website {sanitized}.")
+                            print(f"⚠️ No email found on website {sanitized}.")
                             return None
                     elif response.status_code == 404:
-                        print(f"\u26a0\ufe0f 404 Not Found for {sanitized}, skipping to next URL.")
+                        print(f"⚠️ 404 Not Found for {sanitized}, skipping to next URL.")
                         return None
                     elif 500 <= response.status_code < 600:
-                        print(f"\u26a0\ufe0f Server error {response.status_code} from {sanitized}, retrying...")
+                        print(f"⚠️ Server error {response.status_code} from {sanitized}, retrying...")
                         if attempt < max_retries:
-                            time.sleep(2 ** attempt)  # exponential backoff
+                            time.sleep(2 ** attempt)
                             continue
                         else:
-                            print(f"\u274c Max retries reached for server errors on {sanitized}. Skipping.")
+                            print(f"❌ Max retries reached for server errors on {sanitized}. Skipping.")
                             return None
                     else:
-                        print(f"\u26a0\ufe0f Received status code {response.status_code} from {sanitized}.")
+                        print(f"⚠️ Received status code {response.status_code} from {sanitized}.")
                         return None
                 except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError) as e:
-                    print(f"\u274c Attempt {attempt} - Failed to scrape email from website {sanitized}: {e}")
+                    print(f"❌ Attempt {attempt} - Failed to scrape email from website {sanitized}: {e}")
                     if attempt < max_retries:
-                        time.sleep(2 ** attempt)  # exponential backoff
+                        time.sleep(2 ** attempt)
                         continue
                     else:
-                        print(f"\u274c Max retries reached for {sanitized}. Skipping.")
+                        print(f"❌ Max retries reached for {sanitized}. Skipping.")
                         return None
                 except Exception as e:
-                    print(f"\u274c Unexpected error scraping email from website {sanitized}: {e}")
+                    print(f"❌ Unexpected error scraping email from website {sanitized}: {e}")
                     return None
             return None
 
-        # Try homepage first
         email = try_scrape(website_url)
         if email:
             return email
 
-        # Try common subpages if homepage fails
-        common_subpages = ['/contact', '/contact-us', '/about', '/about-us', '/info', '/info/contact']
-        for subpage in common_subpages:
+        subpages = ['/contact', '/contact-us', '/about', '/about-us', '/info', '/info/contact']
+        for subpage in subpages:
             full_url = urljoin(website_url, subpage)
             email = try_scrape(full_url)
             if email:
                 return email
 
         return None
-
-
 
 # --- Main Run ---
 if __name__ == "__main__":

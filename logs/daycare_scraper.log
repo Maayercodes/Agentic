@@ -1,0 +1,74 @@
+2025-07-23 16:27:46,380 - daycare_scraper - INFO - 'daycares' table already exists
+2025-07-23 16:28:33,480 - daycare_scraper - INFO - 'daycares' table already exists
+2025-07-23 16:28:33,620 - daycare_scraper - INFO - DaycareGoogleMapsScraper initialized
+2025-07-23 16:28:33,622 - daycare_scraper - INFO - Running in test mode with a single city
+2025-07-23 16:28:33,623 - daycare_scraper - INFO - Processing city: New York, NY
+2025-07-23 16:28:33,625 - daycare_scraper - INFO - Getting coordinates for New York, NY
+2025-07-23 16:28:35,368 - daycare_scraper - INFO - Found coordinates for New York, NY: 40.7127281, -74.0060152
+2025-07-23 16:28:35,370 - daycare_scraper - INFO - Scraping daycare near (40.7127281, -74.0060152) with radius 5000m
+2025-07-23 16:28:36,871 - daycare_scraper - ERROR - Google Maps API error: REQUEST_DENIED - The provided API key is invalid.
+2025-07-23 16:28:36,880 - daycare_scraper - INFO - Completed scraping 1 cities, found 0 total results
+2025-07-23 16:28:36,880 - daycare_scraper - INFO - Scraping completed. Found 0 total results across 1 cities.
+2025-07-23 16:28:36,880 - daycare_scraper - INFO - Script execution completed in 3.40 seconds
+2025-07-23 16:31:42,037 - daycare_scraper - INFO - 'daycares' table already exists
+2025-07-23 16:31:42,053 - daycare_scraper - INFO - DaycareGoogleMapsScraper initialized
+2025-07-23 16:31:42,053 - daycare_scraper - INFO - Running in test mode with a single city
+2025-07-23 16:31:42,053 - daycare_scraper - INFO - Processing city: New York, NY
+2025-07-23 16:31:42,053 - daycare_scraper - INFO - Getting coordinates for New York, NY
+2025-07-23 16:31:43,260 - daycare_scraper - INFO - Found coordinates for New York, NY: 40.7127281, -74.0060152
+2025-07-23 16:31:43,260 - daycare_scraper - INFO - Scraping daycare near (40.7127281, -74.0060152) with radius 5000m
+2025-07-23 16:31:43,260 - daycare_scraper - INFO - Running in DEMO MODE - returning mock data
+2025-07-23 16:31:43,260 - daycare_scraper - INFO - Generating 20 mock daycare entries near 40.7127281, -74.0060152
+2025-07-23 16:31:43,260 - daycare_scraper - INFO - Generated 20 mock entries for demo mode
+2025-07-23 16:31:43,260 - daycare_scraper - INFO - Saving 20 entries to database for New York, NY
+2025-07-23 16:41:27,728 - daycare_scraper - INFO - 'daycares' table already exists
+2025-07-23 16:41:27,728 - daycare_scraper - WARNING - [WARNING] No API key found. Running in DEMO MODE with mock data.
+2025-07-23 16:41:27,728 - daycare_scraper - INFO - DaycareGoogleMapsScraper initialized
+2025-07-23 16:41:27,728 - daycare_scraper - INFO - Running in test mode with a single city
+2025-07-23 16:41:27,728 - daycare_scraper - INFO - Processing city: New York, NY
+2025-07-23 16:41:27,728 - daycare_scraper - INFO - Getting coordinates for New York, NY
+2025-07-23 16:41:28,587 - daycare_scraper - INFO - Found coordinates for New York, NY: 40.7127281, -74.0060152
+2025-07-23 16:41:28,587 - daycare_scraper - INFO - Scraping daycare near (40.7127281, -74.0060152) with radius 5000m
+2025-07-23 16:41:28,587 - daycare_scraper - INFO - Running in DEMO MODE - returning mock data
+2025-07-23 16:41:28,587 - daycare_scraper - INFO - Generating 20 mock daycare entries near 40.7127281, -74.0060152
+2025-07-23 16:41:28,587 - daycare_scraper - INFO - Generated 20 mock entries for demo mode
+2025-07-23 16:41:28,587 - daycare_scraper - INFO - Saving 20 entries to database for New York, NY
+2025-07-23 16:41:28,587 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-0.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:41:28,587 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-0.com
+2025-07-23 16:41:28,608 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-1.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:41:28,608 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-1.com
+2025-07-23 16:41:28,610 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-2.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:41:28,610 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-2.com
+2025-07-23 16:41:39,197 - daycare_scraper - INFO - [INFO] No valid email found on https://example-3.com
+2025-07-23 16:41:44,213 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-3.com/about
+2025-07-23 16:41:44,300 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-3.com/contact
+2025-07-23 16:41:44,381 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-3.com/contact-us
+2025-07-23 16:41:48,489 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-3.com/about-us
+2025-07-23 16:41:49,233 - daycare_scraper - WARNING - [WARNING] Concurrent subpage checking timed out
+2025-07-23 16:41:49,929 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-3.com/contact.html
+2025-07-23 16:41:50,345 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-3.com/info/contact
+2025-07-23 16:41:57,323 - daycare_scraper - INFO - [INFO] Timeout accessing https://example-3.com/about.html
+2025-07-23 16:41:57,329 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-4.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:41:57,329 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-4.com
+2025-07-23 16:41:57,337 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-5.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:41:57,337 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-5.com
+2025-07-23 16:42:03,188 - daycare_scraper - INFO - [INFO] No valid email found on https://example-6.com
+2025-07-23 16:42:05,937 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/contact
+2025-07-23 16:42:05,963 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/about
+2025-07-23 16:42:05,963 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/contact-us
+2025-07-23 16:42:08,266 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/info/contact
+2025-07-23 16:42:09,152 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/contact.html
+2025-07-23 16:42:10,959 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/about-us
+2025-07-23 16:42:11,044 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/about.html
+2025-07-23 16:42:12,511 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/contact.php
+2025-07-23 16:42:13,176 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/about.php
+2025-07-23 16:42:13,207 - daycare_scraper - WARNING - [WARNING] Concurrent subpage checking timed out
+2025-07-23 16:42:14,357 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/our-team
+2025-07-23 16:42:14,816 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/team
+2025-07-23 16:42:15,842 - daycare_scraper - INFO - [INFO] 404 Not Found for https://example-6.com/staff
+2025-07-23 16:42:15,858 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-7.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:42:15,858 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-7.com
+2025-07-23 16:42:15,863 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-8.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:42:15,863 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-8.com
+2025-07-23 16:42:15,880 - daycare_scraper - WARNING - [WARNING] Domain validation error for https://example-9.com: [Errno 11001] getaddrinfo failed
+2025-07-23 16:42:15,880 - daycare_scraper - WARNING - [ERROR] Skipping invalid or unreachable domain: https://example-9.com
