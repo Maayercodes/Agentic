@@ -26,6 +26,7 @@ Base = declarative_base()
 engine = create_engine(db_url)
 SessionLocal = sessionmaker(bind=engine)
 
+Base.metadata.create_all(bind=engine)
 
 # --- Define table structure ---
 class Daycare(Base):
