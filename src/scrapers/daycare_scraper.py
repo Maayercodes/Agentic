@@ -44,26 +44,32 @@ class Daycare(Base):
     rating = Column(Float)
     reviews = Column(Integer)
 
-# --- ALTER TABLE to add missing columns dynamically ---
+# --- Create missing columns if not exist ---
 def add_missing_columns(engine):
     inspector = inspect(engine)
-    columns = inspector.get_columns('daycares')
-    existing_column_names = [col['name'] for col in columns]
-
-    type_map = {
-        String: 'VARCHAR',
-        Integer: 'INTEGER',
-        Float: 'FLOAT',
-        Boolean: 'BOOLEAN',
-        DateTime: 'TIMESTAMP'
+    existing_cols = [col["name"] for col in inspector.get_columns("daycares")]
+    column_types = {
+        "rating": "DOUBLE PRECISION",
+        "reviews": "INTEGER",
+        "city": "VARCHAR",
+        "region": "VARCHAR",
+        "source": "VARCHAR",
+        "last_contacted": "TIMESTAMP",
+        "email_opened": "BOOLEAN",
+        "email_replied": "BOOLEAN",
+        "created_at": "TIMESTAMP",
+        "updated_at": "TIMESTAMP"
     }
 
-    for column in Daycare.__table__.columns:
-        if column.name not in existing_column_names:
-            col_type = type_map.get(type(column.type), 'VARCHAR')
-            alter_stmt = f"ALTER TABLE daycares ADD COLUMN {column.name} {col_type}"
-            with engine.connect() as conn:
-                conn.execute(text(alter_stmt))
+    with engine.connect() as conn:
+        for col_name, col_type in column_types.items():
+            if col_name not in existing_cols:
+                alter = f'ALTER TABLE daycares ADD COLUMN {col_name} {col_type}'
+                try:
+                    conn.execute(text(alter))
+                    print(f"✅ Added missing column: {col_name}")
+                except Exception as e:
+                    print(f"❌ Failed to add column {col_name}: {e}")
 
 add_missing_columns(engine)
 
@@ -95,10 +101,9 @@ class DaycareGoogleMapsScraper:
 
     def scrape(self, query: str, location: str, num_results: int = 20):
         if not isinstance(location, str) or ',' not in location:
-            raise ValueError("Location must be a string in 'lat,lng' format, e.g., '40.7128,-74.0060'")
+            raise ValueError("Location must be a string in 'lat,lng' format")
 
         ll_formatted = f"@{location.strip()},14z"
-
         params = {
             "engine": "google_maps",
             "type": "search",
@@ -108,15 +113,11 @@ class DaycareGoogleMapsScraper:
             "api_key": self.api_key
         }
 
-        print(f"🌍 Using parameters for API call: {params}")
-
         try:
             search = GoogleSearch(params)
             results = search.get_dict()
-            print("📡 Raw API response received.")
             daycares = []
             if "local_results" in results:
-                print(f"✅ Found {len(results['local_results'])} local results.")
                 for place in results["local_results"][:num_results]:
                     daycare = {
                         "name": place.get("title"),
@@ -128,11 +129,9 @@ class DaycareGoogleMapsScraper:
                         "website": place.get("website")
                     }
                     daycares.append(daycare)
-            else:
-                print("⚠️ No local_results found in API response.")
             return daycares
         except Exception as e:
-            print(f"❌ Error during API call or parsing: {e}")
+            print(f"❌ Error during API call: {e}")
             return []
 
     def save_to_database(self, daycares: list):
@@ -158,10 +157,10 @@ class DaycareGoogleMapsScraper:
                 )
                 session.add(daycare_entry)
             session.commit()
-            print("💾 All daycare data saved to the database.")
+            print("💾 Data saved to database.")
         except Exception as e:
             session.rollback()
-            print(f"❌ Failed to save data: {e}")
+            print(f"❌ DB Save Failed: {e}")
         finally:
             session.close()
 
@@ -170,17 +169,16 @@ class DaycareGoogleMapsScraper:
         for city in cities:
             coords = get_city_lat_lng(city)
             if coords:
-                print(f"📍 Scraping for city: {city} at {coords}")
+                print(f"📍 Scraping: {city} at {coords}")
                 daycares = self.scrape(query=query, location=coords, num_results=num_results)
                 all_results.extend(daycares)
                 self.save_to_database(daycares)
             else:
-                print(f"⚠️ Skipping city {city} due to missing coordinates.")
+                print(f"⚠️ Skipped city {city} (no coords)")
         return all_results
 
     def scrape_email_from_website(self, website_url: str) -> str:
-        import time
-        import re
+        import time, re
         from urllib.parse import urlparse, urlunparse, parse_qs, urljoin
 
         def sanitize_url(url):
@@ -188,65 +186,39 @@ class DaycareGoogleMapsScraper:
             query = parse_qs(parsed.query)
             filtered_query = {k: v for k, v in query.items() if not k.lower().startswith(('utm_', 'fbclid', 'gclid'))}
             new_query = '&'.join([f'{k}={v[0]}' for k, v in filtered_query.items()])
-            sanitized = urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, new_query, parsed.fragment))
-            return sanitized
+            return urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, new_query, parsed.fragment))
 
         def try_scrape(url):
-            max_retries = 3
-            timeout = 15
-            sanitized = sanitize_url(url)
             headers = {"User-Agent": "Mozilla/5.0"}
-            for attempt in range(1, max_retries + 1):
+            for attempt in range(3):
                 try:
-                    response = requests.get(sanitized, timeout=timeout, headers=headers)
+                    response = requests.get(sanitize_url(url), timeout=10, headers=headers)
                     if response.status_code == 200:
                         match = re.search(r'[\w\.-]+@[\w\.-]+\.[\w]{2,}', response.text)
                         if match:
                             return match.group(0)
-                        else:
-                            print(f"⚠️ No email found on website {sanitized}.")
-                            return None
                     elif response.status_code == 404:
-                        print(f"⚠️ 404 Not Found for {sanitized}, skipping to next URL.")
                         return None
                     elif 500 <= response.status_code < 600:
-                        print(f"⚠️ Server error {response.status_code} from {sanitized}, retrying...")
-                        if attempt < max_retries:
-                            time.sleep(2 ** attempt)
-                            continue
-                        else:
-                            print(f"❌ Max retries reached for server errors on {sanitized}. Skipping.")
-                            return None
-                    else:
-                        print(f"⚠️ Received status code {response.status_code} from {sanitized}.")
-                        return None
-                except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError) as e:
-                    print(f"❌ Attempt {attempt} - Failed to scrape email from website {sanitized}: {e}")
-                    if attempt < max_retries:
                         time.sleep(2 ** attempt)
                         continue
-                    else:
-                        print(f"❌ Max retries reached for {sanitized}. Skipping.")
-                        return None
-                except Exception as e:
-                    print(f"❌ Unexpected error scraping email from website {sanitized}: {e}")
                     return None
+                except Exception:
+                    time.sleep(2 ** attempt)
             return None
 
         email = try_scrape(website_url)
         if email:
             return email
 
-        subpages = ['/contact', '/contact-us', '/about', '/about-us', '/info', '/info/contact']
-        for subpage in subpages:
-            full_url = urljoin(website_url, subpage)
+        for sub in ['/contact', '/about', '/info']:
+            full_url = urljoin(website_url, sub)
             email = try_scrape(full_url)
             if email:
                 return email
-
         return None
 
-# --- Main Run ---
+# --- Run ---
 if __name__ == "__main__":
     scraper = DaycareGoogleMapsScraper(api_key)
     cities = ["New York", "San Francisco"]
