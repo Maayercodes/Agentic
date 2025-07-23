@@ -1,7 +1,7 @@
 import os
 import sys
 from pathlib import Path  # Better path handling
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
@@ -56,9 +56,36 @@ def init_database():
         
         # Verify connection before creating tables
         with engine.connect() as test_conn:
-            test_conn.execute("SELECT 1")
+            test_conn.execute(text("SELECT 1"))
+            logger.info("Database connection successful")
         
-        Base.metadata.create_all(engine)
+        # Check if tables exist
+        inspector = inspect(engine)
+        existing_tables = inspector.get_table_names()
+        logger.info(f"Existing tables: {existing_tables}")
+        
+        # Define required tables
+        required_tables = ['daycares', 'influencers', 'outreach_history']
+        missing_tables = [table for table in required_tables if table not in existing_tables]
+        
+        if missing_tables:
+            logger.warning(f"Missing tables detected: {missing_tables}. Creating now...")
+            Base.metadata.create_all(engine)
+            
+            # Verify tables were created
+            inspector = inspect(engine)
+            tables_after = inspector.get_table_names()
+            logger.info(f"Tables after creation: {tables_after}")
+            
+            # Check if all required tables now exist
+            still_missing = [table for table in required_tables if table not in tables_after]
+            if still_missing:
+                logger.error(f"Failed to create tables: {still_missing}")
+            else:
+                logger.success("All required tables created successfully")
+        else:
+            logger.info("All required tables already exist")
+        
         Session = sessionmaker(bind=engine)
         
         logger.success(f"Database initialized at {database_url}")

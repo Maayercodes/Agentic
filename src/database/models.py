@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, DateTime, Enum, Text
+from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, DateTime, Enum, Text, inspect
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import enum
@@ -86,8 +86,27 @@ def init_db():
     if not database_url:
         raise ValueError("DATABASE_URL environment variable is not set")
     
-    engine = create_engine(database_url)
-    Base.metadata.create_all(engine)
+    engine = create_engine(database_url, pool_pre_ping=True)
+    
+    # Ensure tables exist
+    try:
+        # Check if tables exist
+        inspector = inspect(engine)
+        existing_tables = inspector.get_table_names()
+        required_tables = ['daycares', 'influencers', 'outreach_history']
+        
+        # Check which tables need to be created
+        missing_tables = [table for table in required_tables if table not in existing_tables]
+        
+        if missing_tables:
+            print(f"Creating missing tables: {missing_tables}")
+            Base.metadata.create_all(engine)
+        else:
+            print("All required tables already exist")
+    except Exception as e:
+        print(f"Error checking tables: {e}")
+        # Force table creation as fallback
+        Base.metadata.create_all(engine)
     
     # Create session factory
     Session = sessionmaker(bind=engine)

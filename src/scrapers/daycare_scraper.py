@@ -23,9 +23,22 @@ if not db_url:
 
 # --- Setup SQLAlchemy ---
 Base = declarative_base()
-engine = create_engine(db_url)
+engine = create_engine(db_url, pool_pre_ping=True)
+
 # ✅ Automatically create tables if they don't exist
-Base.metadata.create_all(engine)
+try:
+    # First check if the table exists
+    inspector = inspect(engine)
+    if 'daycares' not in inspector.get_table_names():
+        print("Creating 'daycares' table as it doesn't exist")
+        Base.metadata.create_all(engine)
+    else:
+        print("'daycares' table already exists")
+except Exception as e:
+    print(f"Error checking/creating tables: {e}")
+    # Force table creation as fallback
+    Base.metadata.create_all(engine)
+
 SessionLocal = sessionmaker(bind=engine)
 
 
