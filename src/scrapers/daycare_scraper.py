@@ -19,6 +19,22 @@ if not api_key:
 if not db_url:
     raise ValueError("Please set the DATABASE_URL environment variable.")
 
+# Fix for malformed DATABASE_URL that includes 'DATABASE_URL=' prefix or 'DATABASE_URL = ' format
+if db_url.startswith('DATABASE_URL='):
+    db_url = db_url.replace('DATABASE_URL=', '', 1)
+    print("Fixed malformed DATABASE_URL by removing prefix")
+
+# Fix for 'DATABASE_URL = ' format
+if 'DATABASE_URL =' in db_url or 'DATABASE_URL=' in db_url:
+    # Use regex to extract just the connection string
+    import re
+    connection_match = re.search(r'postgresql://[^\s]+', db_url)
+    if connection_match:
+        db_url = connection_match.group(0)
+        print("Fixed malformed DATABASE_URL by extracting connection string")
+    else:
+        print("Warning: Could not extract PostgreSQL connection string from DATABASE_URL")
+
 # --- Setup SQLAlchemy ---
 Base = declarative_base()
 engine = create_engine(db_url, pool_pre_ping=True)
@@ -150,6 +166,8 @@ class DaycareGoogleMapsScraper:
                     reviews=int(data.get("reviews")) if data.get("reviews") else None,
                     email=email,
                     website=data.get("website"),
+                    region="USA",  # Default region as string instead of enum
+                    source="google_maps",
                     email_opened=boolify(data.get("email_opened")),
                     email_replied=boolify(data.get("email_replied")),
                     created_at=datetime.utcnow(),

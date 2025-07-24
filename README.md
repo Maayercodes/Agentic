@@ -55,6 +55,46 @@ cp .env.example .env
 python src/database/init_db.py
 ```
 
+## 📊 Database Schema
+
+The application uses PostgreSQL for data storage with the following main tables:
+
+- `daycares`: Stores information about daycare centers
+- `influencers`: Stores information about social media influencers
+- `outreach_history`: Tracks all outreach attempts and their status
+
+### Important Notes on Database Schema
+
+- The `region` column in the `daycares` table is now a VARCHAR(50) type (previously was an ENUM type)
+- This change ensures compatibility with SQLAlchemy and prevents type mismatch errors during deployment
+- If you're upgrading from a previous version, run the migration script:
+  ```bash
+  python src/database/migrate_region_column.py
+  ```
+
+## 🚢 Deployment
+
+### Railway Deployment
+
+1. Connect your GitHub repository to Railway
+2. Set up the required environment variables in Railway
+3. Railway will automatically deploy your application
+
+### Deployment Troubleshooting
+
+- If you encounter a `psycopg2.errors.DatatypeMismatch` error related to the `region` column:
+  - Ensure you've updated to the latest code that uses VARCHAR instead of ENUM
+  - Run the migration script on your production database
+  - Check that all code using the `region` field treats it as a string, not an enum
+
+- If you encounter a `Could not parse SQLAlchemy URL from given URL string` error:
+  - This may happen if your DATABASE_URL environment variable is malformed in one of these ways:
+    - Includes the prefix 'DATABASE_URL=' (e.g., 'DATABASE_URL=postgresql://...')
+    - Contains 'DATABASE_URL = ' within the string (e.g., 'DATABASE_URL = postgresql://...')
+  - The latest code includes a fix that automatically extracts the valid PostgreSQL connection string
+  - If you're using an older version, manually ensure your DATABASE_URL contains only the connection string
+  - You can run `python test_db_connection.py` to verify your database connection
+
 ## 📁 Project Structure
 
 ```

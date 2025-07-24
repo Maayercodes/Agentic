@@ -52,6 +52,22 @@ def init_database():
         if not database_url:
             raise ValueError("DATABASE_URL environment variable is not set")
         
+        # Fix for malformed DATABASE_URL that includes 'DATABASE_URL=' prefix or 'DATABASE_URL = ' format
+        if database_url.startswith('DATABASE_URL='):
+            database_url = database_url.replace('DATABASE_URL=', '', 1)
+            logger.info("Fixed malformed DATABASE_URL by removing prefix")
+        
+        # Fix for 'DATABASE_URL = ' format
+        if 'DATABASE_URL =' in database_url or 'DATABASE_URL=' in database_url:
+            # Use regex to extract just the connection string
+            import re
+            connection_match = re.search(r'postgresql://[^\s]+', database_url)
+            if connection_match:
+                database_url = connection_match.group(0)
+                logger.info("Fixed malformed DATABASE_URL by extracting connection string")
+            else:
+                logger.warning("Could not extract PostgreSQL connection string from DATABASE_URL")
+        
         engine = create_engine(database_url, pool_pre_ping=True)  # Add connection health checks
         
         # Verify connection before creating tables

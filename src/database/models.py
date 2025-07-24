@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, DateTime, Enum, Text, inspect
+from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, DateTime, Enum, Text, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import enum
@@ -30,7 +30,8 @@ class Daycare(Base):
     email = Column(String(255))
     phone = Column(String(50))
     website = Column(String(500))
-    region = Column(Enum(Region), nullable=False)
+    # Changed from Enum(Region) to String(50) for compatibility
+    region = Column(String(50), nullable=False)
     source = Column(String(100))  # e.g., 'yelp', 'care.com', etc.
     last_contacted = Column(DateTime)
     email_opened = Column(Boolean, default=False)
@@ -39,7 +40,7 @@ class Daycare(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
-        return f"<Daycare(name='{self.name}', city='{self.city}', region='{self.region.value}')>"
+        return f"<Daycare(name='{self.name}', city='{self.city}', region='{self.region}')>"
 
 class Influencer(Base):
     __tablename__ = 'influencers'
@@ -86,6 +87,22 @@ def init_db():
     if not database_url:
         raise ValueError("DATABASE_URL environment variable is not set")
     
+    # Fix for malformed DATABASE_URL that includes 'DATABASE_URL=' prefix or 'DATABASE_URL = ' format
+    if database_url.startswith('DATABASE_URL='):
+        database_url = database_url.replace('DATABASE_URL=', '', 1)
+        print("Fixed malformed DATABASE_URL by removing prefix")
+    
+    # Fix for 'DATABASE_URL = ' format
+    if 'DATABASE_URL =' in database_url or 'DATABASE_URL=' in database_url:
+        # Use regex to extract just the connection string
+        import re
+        connection_match = re.search(r'postgresql://[^\s]+', database_url)
+        if connection_match:
+            database_url = connection_match.group(0)
+            print("Fixed malformed DATABASE_URL by extracting connection string")
+        else:
+            print("Warning: Could not extract PostgreSQL connection string from DATABASE_URL")
+    
     engine = create_engine(database_url, pool_pre_ping=True)
     
     # Ensure tables exist
@@ -99,20 +116,31 @@ def init_db():
         missing_tables = [table for table in required_tables if table not in existing_tables]
         
         if missing_tables:
-            print(f"Creating missing tables: {missing_tables}")
+            # Create missing tables
             Base.metadata.create_all(engine)
+            print(f"Created tables: {missing_tables}")
         else:
             print("All required tables already exist")
+            
+            # Check if region column needs to be updated
+            try:
+                columns = inspector.get_columns('daycares')
+                region_column = next((col for col in columns if col['name'] == 'region'), None)
+                
+                if region_column and hasattr(region_column['type'], 'name') and region_column['type'].name == 'region':
+                    # If region column is of type 'region', alter it to VARCHAR
+                    with engine.begin() as conn:
+                        conn.execute(text("""
+                            ALTER TABLE daycares 
+                            ALTER COLUMN region TYPE VARCHAR(50) 
+                            USING region::VARCHAR
+                        """))
+                    print("Updated 'region' column type from ENUM to VARCHAR")
+            except Exception as e:
+                print(f"Warning: Could not check or update region column type: {e}")
+        
+        Session = sessionmaker(bind=engine)
+        return Session()
     except Exception as e:
-        print(f"Error checking tables: {e}")
-        # Force table creation as fallback
-        Base.metadata.create_all(engine)
-    
-    # Create session factory
-    Session = sessionmaker(bind=engine)
-    return Session()
-
-# Create tables if they don't exist
-if __name__ == '__main__':
-    init_db()
-    print("Database tables created successfully!")
+        print(f"Error initializing database: {e}")
+        raise

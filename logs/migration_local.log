@@ -1,0 +1,15 @@
+2025-07-24 09:37:53.187 | INFO     | __main__:main:87 - Starting simplified region column migration...
+2025-07-24 09:37:53.192 | INFO     | __main__:fix_region_column_local:25 - Fixed malformed DATABASE_URL by removing prefix
+2025-07-24 09:37:53.192 | INFO     | __main__:fix_region_column_local:34 - Fixed malformed DATABASE_URL by extracting connection string
+2025-07-24 09:37:53.192 | INFO     | __main__:fix_region_column_local:38 - Connecting to database: postgresql://postgres:JpowNdZaATYXGIGYKdAxDKBfHaBcmgwy@yamanote.proxy.rlwy.net:40752/railway
+2025-07-24 09:37:53.244 | INFO     | __main__:fix_region_column_local:48 - Testing database connection...
+2025-07-24 09:38:00.446 | INFO     | __main__:fix_region_column_local:50 - Database connection successful
+2025-07-24 09:39:46.242 | INFO     | __main__:main:84 - Starting simplified region column migration...
+2025-07-24 09:39:46.242 | INFO     | __main__:fix_region_column_local:25 - Fixed malformed DATABASE_URL by removing prefix
+2025-07-24 09:39:46.242 | INFO     | __main__:fix_region_column_local:34 - Fixed malformed DATABASE_URL by extracting connection string
+2025-07-24 09:39:46.242 | INFO     | __main__:fix_region_column_local:38 - Connecting to database: postgresql://postgres:JpowNdZaATYXGIGYKdAxDKBfHaBcmgwy@yamanote.proxy.rlwy.net:40752/railway
+2025-07-24 09:39:46.294 | INFO     | __main__:fix_region_column_local:48 - Testing database connection...
+2025-07-24 09:39:56.320 | ERROR    | __main__:fix_region_column_local:79 - Migration failed: (psycopg2.OperationalError) connection to server at "yamanote.proxy.rlwy.net" (35.212.82.162), port 40752 failed: timeout expired
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-07-24 09:39:56.320 | ERROR    | __main__:main:90 - Migration failed.

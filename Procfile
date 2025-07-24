@@ -1,1 +1,1 @@
-web: python app.py
+web: bash railway_deploy.sh
