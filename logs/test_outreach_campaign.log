@@ -1,0 +1,193 @@
+2025-07-24 11:11:38.664 | INFO     | __main__:<module>:188 - Starting outreach campaign test
+2025-07-24 11:11:38.664 | INFO     | __main__:run_tests:148 - Starting outreach campaign tests...
+
+2025-07-24 11:11:38.664 | INFO     | __main__:test_email_sender_initialization:16 - 
+=== TESTING EMAIL SENDER INITIALIZATION ===
+
+2025-07-24 11:11:38.664 | INFO     | __main__:test_email_sender_initialization:30 - GMAIL_USER is set: plo...com
+2025-07-24 11:11:38.664 | INFO     | __main__:test_email_sender_initialization:31 - GMAIL_APP_PASSWORD is set: ******
+2025-07-24 11:11:50.814 | INFO     | __main__:test_email_sender_initialization:36 - ✅ EmailSender initialized successfully
+2025-07-24 11:11:50.814 | INFO     | __main__:test_email_template_loading:44 - 
+=== TESTING EMAIL TEMPLATE LOADING ===
+
+2025-07-24 11:12:04.034 | INFO     | __main__:test_email_template_loading:57 - ✅ Successfully loaded template: daycare_en.html
+2025-07-24 11:12:04.034 | INFO     | __main__:test_email_template_loading:58 - ✅ Successfully loaded template: subject_daycare_en.txt
+2025-07-24 11:12:04.034 | INFO     | __main__:test_email_template_loading:70 - ✅ Successfully loaded template: influencer_en.html
+2025-07-24 11:12:04.034 | INFO     | __main__:test_email_template_loading:71 - ✅ Successfully loaded template: subject_influencer_en.txt
+2025-07-24 11:12:04.034 | INFO     | __main__:test_database_targets:83 - 
+=== TESTING DATABASE TARGETS ===
+
+2025-07-24 11:12:17.725 | INFO     | __main__:test_database_targets:90 - Found 5 daycares in database
+2025-07-24 11:12:17.725 | INFO     | __main__:test_database_targets:94 - Daycare 1: Crossroads Early Learning Center, Email: crossroadsdir@gmail.com
+2025-07-24 11:12:17.725 | INFO     | __main__:test_database_targets:94 - Daycare 2: Childtime of Spotswood, Email: None
+2025-07-24 11:12:17.725 | INFO     | __main__:test_database_targets:94 - Daycare 3: Big Apple Academy, Email: bigappleacademynj@gmail.com
+2025-07-24 11:12:18.392 | INFO     | __main__:test_database_targets:98 - Found 5 influencers in database
+2025-07-24 11:12:18.392 | INFO     | __main__:test_database_targets:102 - Influencer 1: Parenting, Email: None
+2025-07-24 11:12:18.392 | INFO     | __main__:test_database_targets:102 - Influencer 2: Get Parenting Tips, Email: None
+2025-07-24 11:12:18.392 | INFO     | __main__:test_database_targets:102 - Influencer 3: Tamil Parenting School , Email: None
+2025-07-24 11:12:19.267 | INFO     | __main__:test_database_targets:108 - Found 12 daycares with valid emails
+2025-07-24 11:12:19.267 | INFO     | __main__:test_database_targets:109 - Found 0 influencers with valid emails
+2025-07-24 11:12:19.267 | INFO     | __main__:test_outreach_command_processing:122 - 
+=== TESTING OUTREACH COMMAND PROCESSING ===
+
+2025-07-24 11:12:30.252 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:12:30.252 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:12:30.252 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:12:30.252 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:12:30.978 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:12:30.978 | INFO     | __main__:test_outreach_command_processing:130 - Processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:12:30.978 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:12:30.978 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:12:33.636 | INFO     | src.ai_assistant.assistant:check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-24 11:12:33.636 | INFO     | src.ai_assistant.assistant:process_command:254 - Processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:12:33.636 | INFO     | src.ai_assistant.assistant:_analyze_intent:141 - Starting intent analysis for command: 'Send outreach email to 1 random daycare' using model gpt-3.5-turbo
+2025-07-24 11:12:33.636 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:147 - Attempt 1/4 to analyze intent
+2025-07-24 11:12:57.888 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for monmouthjunction@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:13:18.938 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for kidscountchildcenternj@gmail.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:13:39.959 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for eastbrunswick@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:13:39.959 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to South County Day Care Center: Target has no valid email address.
+2025-07-24 11:14:01.005 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for oldbridge@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:14:22.048 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for edison@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:14:22.048 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Childtime of Spotswood: Target has no valid email address.
+2025-07-24 11:14:22.048 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to KinderCare at Old Bridge: Target has no valid email address.
+2025-07-24 11:14:43.088 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for info@learningbridgeacademynj.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:15:04.132 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for crossroadsdir@gmail.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:15:04.132 | INFO     | __main__:test_outreach_command_processing:140 - ✅ Command processing successful: {'success': True, 'messages_sent': 10, 'details': [{'target': 'The Learning Experience - Monmouth Junction', 'email': 'monmouthjunction@tlechildcare.com', 'status': 'failed'}, {'target': 'Kids Count Child Center', 'email': 'kidscountchildcenternj@gmail.com', 'status': 'failed'}, {'target': 'The Learning Experience - East Brunswick', 'email': 'eastbrunswick@tlechildcare.com', 'status': 'failed'}, {'target': 'South County Day Care Center', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'The Learning Experience - Old Bridge', 'email': 'oldbridge@tlechildcare.com', 'status': 'failed'}, {'target': 'The Learning Experience - Edison', 'email': 'edison@tlechildcare.com', 'status': 'failed'}, {'target': 'Childtime of Spotswood', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'KinderCare at Old Bridge', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'Learning Bridge Academy', 'email': 'info@learningbridgeacademynj.com', 'status': 'failed'}, {'target': 'Crossroads Early Learning Center', 'email': 'crossroadsdir@gmail.com', 'status': 'failed'}]}
+2025-07-24 11:15:04.132 | INFO     | __main__:run_tests:157 - 
+=== TEST SUMMARY ===
+
+2025-07-24 11:15:04.132 | INFO     | __main__:run_tests:158 - Email Sender Initialization: ✅ PASSED
+2025-07-24 11:15:04.132 | INFO     | __main__:run_tests:159 - Email Template Loading: ✅ PASSED
+2025-07-24 11:15:04.132 | INFO     | __main__:run_tests:160 - Database Targets: ✅ PASSED
+2025-07-24 11:15:04.132 | INFO     | __main__:run_tests:161 - Outreach Command Processing: ✅ PASSED
+2025-07-24 11:15:04.132 | INFO     | __main__:run_tests:165 - 
+Overall result: ✅ ALL TESTS PASSED
+2025-07-24 11:15:04.138 | INFO     | __main__:<module>:191 - Test completed successfully
+2025-07-24 11:15:58.543 | INFO     | __main__:<module>:188 - Starting outreach campaign test
+2025-07-24 11:15:58.558 | INFO     | __main__:run_tests:148 - Starting outreach campaign tests...
+
+2025-07-24 11:15:58.558 | INFO     | __main__:test_email_sender_initialization:16 - 
+=== TESTING EMAIL SENDER INITIALIZATION ===
+
+2025-07-24 11:15:58.558 | INFO     | __main__:test_email_sender_initialization:30 - GMAIL_USER is set: plo...com
+2025-07-24 11:15:58.558 | INFO     | __main__:test_email_sender_initialization:31 - GMAIL_APP_PASSWORD is set: ******
+2025-07-24 11:16:11.026 | INFO     | __main__:test_email_sender_initialization:36 - ✅ EmailSender initialized successfully
+2025-07-24 11:16:11.109 | INFO     | __main__:test_email_template_loading:44 - 
+=== TESTING EMAIL TEMPLATE LOADING ===
+
+2025-07-24 11:16:22.546 | INFO     | __main__:test_email_template_loading:57 - ✅ Successfully loaded template: daycare_en.html
+2025-07-24 11:16:22.546 | INFO     | __main__:test_email_template_loading:58 - ✅ Successfully loaded template: subject_daycare_en.txt
+2025-07-24 11:16:22.559 | INFO     | __main__:test_email_template_loading:70 - ✅ Successfully loaded template: influencer_en.html
+2025-07-24 11:16:22.563 | INFO     | __main__:test_email_template_loading:71 - ✅ Successfully loaded template: subject_influencer_en.txt
+2025-07-24 11:16:22.563 | INFO     | __main__:test_database_targets:83 - 
+=== TESTING DATABASE TARGETS ===
+
+2025-07-24 11:16:35.938 | INFO     | __main__:test_database_targets:90 - Found 5 daycares in database
+2025-07-24 11:16:35.938 | INFO     | __main__:test_database_targets:94 - Daycare 1: Crossroads Early Learning Center, Email: crossroadsdir@gmail.com
+2025-07-24 11:16:35.938 | INFO     | __main__:test_database_targets:94 - Daycare 2: Childtime of Spotswood, Email: None
+2025-07-24 11:16:35.938 | INFO     | __main__:test_database_targets:94 - Daycare 3: Big Apple Academy, Email: bigappleacademynj@gmail.com
+2025-07-24 11:16:36.387 | INFO     | __main__:test_database_targets:98 - Found 5 influencers in database
+2025-07-24 11:16:36.387 | INFO     | __main__:test_database_targets:102 - Influencer 1: Parenting, Email: None
+2025-07-24 11:16:36.387 | INFO     | __main__:test_database_targets:102 - Influencer 2: Get Parenting Tips, Email: None
+2025-07-24 11:16:36.387 | INFO     | __main__:test_database_targets:102 - Influencer 3: Tamil Parenting School , Email: None
+2025-07-24 11:16:37.279 | INFO     | __main__:test_database_targets:108 - Found 12 daycares with valid emails
+2025-07-24 11:16:37.279 | INFO     | __main__:test_database_targets:109 - Found 0 influencers with valid emails
+2025-07-24 11:16:37.279 | INFO     | __main__:test_outreach_command_processing:122 - 
+=== TESTING OUTREACH COMMAND PROCESSING ===
+
+2025-07-24 11:16:49.288 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:16:49.288 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:16:49.288 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:16:49.288 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:16:50.032 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:16:50.032 | INFO     | __main__:test_outreach_command_processing:130 - Processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:16:50.032 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:16:50.032 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:16:52.678 | INFO     | src.ai_assistant.assistant:check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-24 11:16:52.678 | INFO     | src.ai_assistant.assistant:process_command:254 - Processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:16:52.678 | INFO     | src.ai_assistant.assistant:_analyze_intent:141 - Starting intent analysis for command: 'Send outreach email to 1 random daycare' using model gpt-3.5-turbo
+2025-07-24 11:16:52.678 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:147 - Attempt 1/4 to analyze intent
+2025-07-24 11:17:17.121 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for oldbridge@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:17:38.155 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for kidscountchildcenternj@gmail.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:17:59.194 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for edison@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:17:59.194 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Children of America East Brunswick: Target has no valid email address.
+2025-07-24 11:17:59.194 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to South County Day Care Center: Target has no valid email address.
+2025-07-24 11:18:20.237 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for northbrunswick@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:18:20.237 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Parents Choice Daycare: Target has no valid email address.
+2025-07-24 11:18:20.237 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Early Childhood Learning Center: Target has no valid email address.
+2025-07-24 11:18:20.237 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Primrose School of East Brunswick: Target has no valid email address.
+2025-07-24 11:18:41.291 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for bigappleacademynj@gmail.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:18:41.291 | INFO     | __main__:test_outreach_command_processing:140 - ✅ Command processing successful: {'success': True, 'messages_sent': 10, 'details': [{'target': 'The Learning Experience - Old Bridge', 'email': 'oldbridge@tlechildcare.com', 'status': 'failed'}, {'target': 'Kids Count Child Center', 'email': 'kidscountchildcenternj@gmail.com', 'status': 'failed'}, {'target': 'The Learning Experience - Edison', 'email': 'edison@tlechildcare.com', 'status': 'failed'}, {'target': 'Children of America East Brunswick', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'South County Day Care Center', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'The Learning Experience - North Brunswick', 'email': 'northbrunswick@tlechildcare.com', 'status': 'failed'}, {'target': 'Parents Choice Daycare', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'Early Childhood Learning Center', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'Primrose School of East Brunswick', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'Big Apple Academy', 'email': 'bigappleacademynj@gmail.com', 'status': 'failed'}]}
+2025-07-24 11:18:41.296 | INFO     | __main__:run_tests:157 - 
+=== TEST SUMMARY ===
+
+2025-07-24 11:18:41.296 | INFO     | __main__:run_tests:158 - Email Sender Initialization: ✅ PASSED
+2025-07-24 11:18:41.298 | INFO     | __main__:run_tests:159 - Email Template Loading: ✅ PASSED
+2025-07-24 11:18:41.299 | INFO     | __main__:run_tests:160 - Database Targets: ✅ PASSED
+2025-07-24 11:18:41.301 | INFO     | __main__:run_tests:161 - Outreach Command Processing: ✅ PASSED
+2025-07-24 11:18:41.303 | INFO     | __main__:run_tests:165 - 
+Overall result: ✅ ALL TESTS PASSED
+2025-07-24 11:18:41.306 | INFO     | __main__:<module>:191 - Test completed successfully
+2025-07-24 11:19:04.759 | INFO     | test_outreach_campaign:run_tests:148 - Starting outreach campaign tests...
+
+2025-07-24 11:19:04.759 | INFO     | test_outreach_campaign:test_email_sender_initialization:16 - 
+=== TESTING EMAIL SENDER INITIALIZATION ===
+
+2025-07-24 11:19:04.760 | INFO     | test_outreach_campaign:test_email_sender_initialization:30 - GMAIL_USER is set: plo...com
+2025-07-24 11:19:04.762 | INFO     | test_outreach_campaign:test_email_sender_initialization:31 - GMAIL_APP_PASSWORD is set: ******
+2025-07-24 11:19:17.432 | INFO     | test_outreach_campaign:test_email_sender_initialization:36 - ✅ EmailSender initialized successfully
+2025-07-24 11:19:17.432 | INFO     | test_outreach_campaign:test_email_template_loading:44 - 
+=== TESTING EMAIL TEMPLATE LOADING ===
+
+2025-07-24 11:19:29.920 | INFO     | test_outreach_campaign:test_email_template_loading:57 - ✅ Successfully loaded template: daycare_en.html
+2025-07-24 11:19:29.920 | INFO     | test_outreach_campaign:test_email_template_loading:58 - ✅ Successfully loaded template: subject_daycare_en.txt
+2025-07-24 11:19:29.923 | INFO     | test_outreach_campaign:test_email_template_loading:70 - ✅ Successfully loaded template: influencer_en.html
+2025-07-24 11:19:29.923 | INFO     | test_outreach_campaign:test_email_template_loading:71 - ✅ Successfully loaded template: subject_influencer_en.txt
+2025-07-24 11:19:29.923 | INFO     | test_outreach_campaign:test_database_targets:83 - 
+=== TESTING DATABASE TARGETS ===
+
+2025-07-24 11:19:45.424 | INFO     | test_outreach_campaign:test_database_targets:90 - Found 5 daycares in database
+2025-07-24 11:19:45.428 | INFO     | test_outreach_campaign:test_database_targets:94 - Daycare 1: Crossroads Early Learning Center, Email: crossroadsdir@gmail.com
+2025-07-24 11:19:45.428 | INFO     | test_outreach_campaign:test_database_targets:94 - Daycare 2: Childtime of Spotswood, Email: None
+2025-07-24 11:19:45.429 | INFO     | test_outreach_campaign:test_database_targets:94 - Daycare 3: Big Apple Academy, Email: bigappleacademynj@gmail.com
+2025-07-24 11:19:46.098 | INFO     | test_outreach_campaign:test_database_targets:98 - Found 5 influencers in database
+2025-07-24 11:19:46.098 | INFO     | test_outreach_campaign:test_database_targets:102 - Influencer 1: Parenting, Email: None
+2025-07-24 11:19:46.098 | INFO     | test_outreach_campaign:test_database_targets:102 - Influencer 2: Get Parenting Tips, Email: None
+2025-07-24 11:19:46.098 | INFO     | test_outreach_campaign:test_database_targets:102 - Influencer 3: Tamil Parenting School , Email: None
+2025-07-24 11:19:47.009 | INFO     | test_outreach_campaign:test_database_targets:108 - Found 12 daycares with valid emails
+2025-07-24 11:19:47.012 | INFO     | test_outreach_campaign:test_database_targets:109 - Found 0 influencers with valid emails
+2025-07-24 11:19:47.012 | INFO     | test_outreach_campaign:test_outreach_command_processing:122 - 
+=== TESTING OUTREACH COMMAND PROCESSING ===
+
+2025-07-24 11:20:00.381 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:20:00.381 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:20:00.381 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:20:00.381 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:20:01.066 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:20:01.066 | INFO     | test_outreach_campaign:test_outreach_command_processing:130 - Processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:20:01.066 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:20:01.066 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:20:03.771 | INFO     | src.ai_assistant.assistant:check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-24 11:20:03.771 | INFO     | src.ai_assistant.assistant:process_command:254 - Processing command: 'Send outreach email to 1 random daycare'
+2025-07-24 11:20:03.771 | INFO     | src.ai_assistant.assistant:_analyze_intent:141 - Starting intent analysis for command: 'Send outreach email to 1 random daycare' using model gpt-3.5-turbo
+2025-07-24 11:20:03.771 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:147 - Attempt 1/4 to analyze intent
+2025-07-24 11:20:28.092 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for rockaway@gsl.academy: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:20:49.142 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for northbrunswick@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:21:10.201 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for littleearthshepherds@gmail.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:21:10.201 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Parents Choice Daycare: Target has no valid email address.
+2025-07-24 11:21:10.201 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to South County Day Care Center: Target has no valid email address.
+2025-07-24 11:21:31.274 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for info@learningbridgeacademynj.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:21:31.274 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Kumon Math and Reading Center of Spotswood: Target has no valid email address.
+2025-07-24 11:21:31.274 | ERROR    | src.outreach.email_sender:send_batch:65 - Error sending email to Childtime of Spotswood: Target has no valid email address.
+2025-07-24 11:21:52.322 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for monmouthjunction@tlechildcare.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:22:13.357 | ERROR    | src.outreach.email_sender:_send_email:122 - SMTP error for kidscountchildcenternj@gmail.com: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2025-07-24 11:22:13.358 | INFO     | test_outreach_campaign:test_outreach_command_processing:140 - ✅ Command processing successful: {'success': True, 'messages_sent': 10, 'details': [{'target': 'Growing Seeds Learning Academy', 'email': 'rockaway@gsl.academy', 'status': 'failed'}, {'target': 'The Learning Experience - North Brunswick', 'email': 'northbrunswick@tlechildcare.com', 'status': 'failed'}, {'target': 'Little Earth Shepherds Preschool', 'email': 'littleearthshepherds@gmail.com', 'status': 'failed'}, {'target': 'Parents Choice Daycare', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'South County Day Care Center', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'Learning Bridge Academy', 'email': 'info@learningbridgeacademynj.com', 'status': 'failed'}, {'target': 'Kumon Math and Reading Center of Spotswood', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'Childtime of Spotswood', 'email': None, 'status': 'error', 'error': 'Target has no valid email address.'}, {'target': 'The Learning Experience - Monmouth Junction', 'email': 'monmouthjunction@tlechildcare.com', 'status': 'failed'}, {'target': 'Kids Count Child Center', 'email': 'kidscountchildcenternj@gmail.com', 'status': 'failed'}]}
+2025-07-24 11:22:13.358 | INFO     | test_outreach_campaign:run_tests:157 - 
+=== TEST SUMMARY ===
+
+2025-07-24 11:22:13.358 | INFO     | test_outreach_campaign:run_tests:158 - Email Sender Initialization: ✅ PASSED
+2025-07-24 11:22:13.358 | INFO     | test_outreach_campaign:run_tests:159 - Email Template Loading: ✅ PASSED
+2025-07-24 11:22:13.359 | INFO     | test_outreach_campaign:run_tests:160 - Database Targets: ✅ PASSED
+2025-07-24 11:22:13.359 | INFO     | test_outreach_campaign:run_tests:161 - Outreach Command Processing: ✅ PASSED
+2025-07-24 11:22:13.359 | INFO     | test_outreach_campaign:run_tests:165 - 
+Overall result: ✅ ALL TESTS PASSED

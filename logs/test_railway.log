@@ -1,0 +1,17 @@
+2025-07-24 11:03:55.267 | INFO     | __main__:test:25 - Starting Railway simulation test
+2025-07-24 11:03:55.269 | INFO     | __main__:test:26 - Initializing database session
+2025-07-24 11:04:04.708 | INFO     | __main__:test:29 - Creating AI Assistant with simulated Railway environment
+2025-07-24 11:04:04.708 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:04:04.708 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:04:04.708 | INFO     | src.ai_assistant.assistant:__init__:37 - Using custom OpenAI base URL: https://nonexistent-api-endpoint.example.com/v1
+2025-07-24 11:04:04.708 | INFO     | src.ai_assistant.assistant:__init__:44 - Detected Railway deployment environment
+2025-07-24 11:04:04.708 | INFO     | src.ai_assistant.assistant:__init__:45 - Ensuring outbound connections are properly configured for Railway
+2025-07-24 11:04:04.708 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:04:04.991 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:04:04.991 | INFO     | __main__:test:32 - Processing command with expected connection error
+2025-07-24 11:04:05.007 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:04:05.007 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Find all influencers in France'
+2025-07-24 11:04:06.790 | ERROR    | src.ai_assistant.assistant:check_api_connectivity:85 - Error checking OpenAI API connectivity: APIConnectionError: Connection error.
+2025-07-24 11:04:06.790 | INFO     | __main__:test:35 - Result: {'error': "Unable to connect to OpenAI API. This may be due to Railway's outbound request restrictions.", 'suggestion': 'Please check your internet connection and API configuration. You may need to configure Railway to allow outbound connections to the OpenAI API.', 'status': 'connection_error', 'environment': 'railway'}
+2025-07-24 11:04:06.790 | INFO     | __main__:test:39 - ✅ Test PASSED: Railway environment correctly detected and handled
+2025-07-24 11:04:06.790 | INFO     | __main__:test:60 - Environment variables restored

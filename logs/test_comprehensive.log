@@ -1,0 +1,146 @@
+2025-07-24 11:05:22.808 | INFO     | __main__:test_normal_operation:15 - 
+=== TESTING NORMAL OPERATION ===
+2025-07-24 11:05:31.640 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:05:31.641 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:05:31.641 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:05:31.641 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:05:31.885 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:05:31.885 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:05:31.885 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Find all influencers in France'
+2025-07-24 11:05:34.746 | INFO     | src.ai_assistant.assistant:check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-24 11:05:34.746 | INFO     | src.ai_assistant.assistant:process_command:254 - Processing command: 'Find all influencers in France'
+2025-07-24 11:05:34.746 | INFO     | src.ai_assistant.assistant:_analyze_intent:141 - Starting intent analysis for command: 'Find all influencers in France' using model gpt-3.5-turbo
+2025-07-24 11:05:34.746 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:147 - Attempt 1/4 to analyze intent
+2025-07-24 11:05:40.486 | INFO     | __main__:test_normal_operation:20 - Normal operation test: ✅ PASSED
+2025-07-24 11:05:40.488 | INFO     | __main__:test_invalid_api_key:25 - 
+=== TESTING INVALID API KEY ===
+2025-07-24 11:05:49.285 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:05:49.285 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:05:49.285 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:05:49.285 | WARNING  | src.ai_assistant.assistant:_validate_api_key:104 - OpenAI API key has incorrect format. It should start with 'sk-'.
+2025-07-24 11:05:49.285 | INFO     | src.ai_assistant.assistant:_validate_api_key:105 - Your API key appears to be malformed. Please check for typos or incorrect copying.
+2025-07-24 11:05:49.285 | WARNING  | src.ai_assistant.assistant:__init__:50 - Proceeding with invalid API key configuration - operations will likely fail
+2025-07-24 11:05:49.301 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:05:49.301 | WARNING  | src.ai_assistant.assistant:_validate_api_key:104 - OpenAI API key has incorrect format. It should start with 'sk-'.
+2025-07-24 11:05:49.301 | INFO     | src.ai_assistant.assistant:_validate_api_key:105 - Your API key appears to be malformed. Please check for typos or incorrect copying.
+2025-07-24 11:05:49.301 | INFO     | __main__:test_invalid_api_key:39 - Invalid API key test: ❌ FAILED
+2025-07-24 11:05:49.301 | INFO     | __main__:test_missing_api_key:107 - 
+=== TESTING MISSING API KEY ===
+2025-07-24 11:05:58.409 | WARNING  | src.ai_assistant.assistant:__init__:24 - OPENAI_API_KEY environment variable is not set
+2025-07-24 11:05:58.409 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:05:58.409 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:05:58.409 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:05:58.409 | WARNING  | src.ai_assistant.assistant:_validate_api_key:92 - OpenAI API key is not set. Please check your .env file or environment variables.
+2025-07-24 11:05:58.409 | INFO     | src.ai_assistant.assistant:_validate_api_key:93 - Make sure OPENAI_API_KEY is properly set in your environment or .env file.
+2025-07-24 11:05:58.409 | WARNING  | src.ai_assistant.assistant:__init__:50 - Proceeding with invalid API key configuration - operations will likely fail
+2025-07-24 11:05:58.409 | ERROR    | src.ai_assistant.assistant:__init__:60 - Failed to initialize OpenAI client: OpenAIError: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable
+2025-07-24 11:05:58.421 | WARNING  | src.ai_assistant.assistant:_validate_api_key:92 - OpenAI API key is not set. Please check your .env file or environment variables.
+2025-07-24 11:05:58.421 | INFO     | src.ai_assistant.assistant:_validate_api_key:93 - Make sure OPENAI_API_KEY is properly set in your environment or .env file.
+2025-07-24 11:05:58.421 | INFO     | __main__:test_missing_api_key:121 - Missing API key test: ❌ FAILED
+2025-07-24 11:05:58.426 | INFO     | __main__:test_connection_error:50 - 
+=== TESTING CONNECTION ERROR ===
+2025-07-24 11:06:32.960 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:06:32.962 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:06:32.962 | INFO     | src.ai_assistant.assistant:__init__:37 - Using custom OpenAI base URL: https://nonexistent-api-endpoint.example.com/v1
+2025-07-24 11:06:32.962 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:06:32.970 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:06:32.970 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:06:32.970 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Find all influencers in France'
+2025-07-24 11:06:34.280 | ERROR    | src.ai_assistant.assistant:check_api_connectivity:85 - Error checking OpenAI API connectivity: APIConnectionError: Connection error.
+2025-07-24 11:06:34.280 | INFO     | __main__:test_connection_error:64 - Connection error test: ✅ PASSED
+2025-07-24 11:06:34.280 | INFO     | __main__:test_railway_environment:75 - 
+=== TESTING RAILWAY ENVIRONMENT ===
+2025-07-24 11:06:43.144 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:06:43.144 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:06:43.144 | INFO     | src.ai_assistant.assistant:__init__:37 - Using custom OpenAI base URL: https://nonexistent-api-endpoint.example.com/v1
+2025-07-24 11:06:43.144 | INFO     | src.ai_assistant.assistant:__init__:44 - Detected Railway deployment environment
+2025-07-24 11:06:43.144 | INFO     | src.ai_assistant.assistant:__init__:45 - Ensuring outbound connections are properly configured for Railway
+2025-07-24 11:06:43.144 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:06:43.156 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:06:43.156 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:06:43.156 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Find all influencers in France'
+2025-07-24 11:06:44.967 | ERROR    | src.ai_assistant.assistant:check_api_connectivity:85 - Error checking OpenAI API connectivity: APIConnectionError: Connection error.
+2025-07-24 11:06:44.967 | INFO     | __main__:test_railway_environment:91 - Railway environment test: ✅ PASSED
+2025-07-24 11:06:44.967 | INFO     | __main__:run_all_tests:149 - 
+=== TEST SUMMARY ===
+2025-07-24 11:06:44.967 | INFO     | __main__:run_all_tests:153 - Normal operation: ✅ PASSED
+2025-07-24 11:06:44.967 | INFO     | __main__:run_all_tests:153 - Invalid API key: ❌ FAILED
+2025-07-24 11:06:44.967 | INFO     | __main__:run_all_tests:153 - Missing API key: ❌ FAILED
+2025-07-24 11:06:44.967 | INFO     | __main__:run_all_tests:153 - Connection error: ✅ PASSED
+2025-07-24 11:06:44.967 | INFO     | __main__:run_all_tests:153 - Railway environment: ✅ PASSED
+2025-07-24 11:06:44.967 | INFO     | __main__:run_all_tests:157 - 
+Overall result: ❌ SOME TESTS FAILED
+2025-07-24 11:07:36.401 | INFO     | __main__:test_normal_operation:15 - 
+=== TESTING NORMAL OPERATION ===
+2025-07-24 11:07:45.728 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:07:45.734 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:07:45.734 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:07:45.734 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:07:45.983 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:07:45.983 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:07:45.983 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Find all influencers in France'
+2025-07-24 11:07:48.799 | INFO     | src.ai_assistant.assistant:check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-24 11:07:48.799 | INFO     | src.ai_assistant.assistant:process_command:254 - Processing command: 'Find all influencers in France'
+2025-07-24 11:07:48.799 | INFO     | src.ai_assistant.assistant:_analyze_intent:141 - Starting intent analysis for command: 'Find all influencers in France' using model gpt-3.5-turbo
+2025-07-24 11:07:48.799 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:147 - Attempt 1/4 to analyze intent
+2025-07-24 11:07:52.612 | INFO     | __main__:test_normal_operation:20 - Normal operation test: ✅ PASSED
+2025-07-24 11:07:52.612 | INFO     | __main__:test_invalid_api_key:25 - 
+=== TESTING INVALID API KEY ===
+2025-07-24 11:08:00.965 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:08:00.965 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:08:00.965 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:08:00.967 | WARNING  | src.ai_assistant.assistant:_validate_api_key:104 - OpenAI API key has incorrect format. It should start with 'sk-'.
+2025-07-24 11:08:00.967 | INFO     | src.ai_assistant.assistant:_validate_api_key:105 - Your API key appears to be malformed. Please check for typos or incorrect copying.
+2025-07-24 11:08:00.967 | WARNING  | src.ai_assistant.assistant:__init__:50 - Proceeding with invalid API key configuration - operations will likely fail
+2025-07-24 11:08:00.969 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:08:00.969 | WARNING  | src.ai_assistant.assistant:_validate_api_key:104 - OpenAI API key has incorrect format. It should start with 'sk-'.
+2025-07-24 11:08:00.969 | INFO     | src.ai_assistant.assistant:_validate_api_key:105 - Your API key appears to be malformed. Please check for typos or incorrect copying.
+2025-07-24 11:08:00.969 | INFO     | __main__:test_invalid_api_key:37 - Result: {'error': 'OpenAI API key is missing, empty, or invalid.', 'suggestion': "Please check your OPENAI_API_KEY environment variable or .env file. The key should start with 'sk-' and be at least 40 characters long.", 'status': 'configuration_error'}
+2025-07-24 11:08:00.969 | INFO     | __main__:test_invalid_api_key:41 - Invalid API key test: ✅ PASSED
+2025-07-24 11:08:00.969 | INFO     | __main__:test_missing_api_key:109 - 
+=== TESTING MISSING API KEY ===
+2025-07-24 11:08:09.363 | WARNING  | src.ai_assistant.assistant:__init__:24 - OPENAI_API_KEY environment variable is not set
+2025-07-24 11:08:09.369 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:08:09.369 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:08:09.369 | INFO     | src.ai_assistant.assistant:__init__:39 - Using default OpenAI API endpoint
+2025-07-24 11:08:09.369 | WARNING  | src.ai_assistant.assistant:_validate_api_key:92 - OpenAI API key is not set. Please check your .env file or environment variables.
+2025-07-24 11:08:09.369 | INFO     | src.ai_assistant.assistant:_validate_api_key:93 - Make sure OPENAI_API_KEY is properly set in your environment or .env file.
+2025-07-24 11:08:09.369 | WARNING  | src.ai_assistant.assistant:__init__:50 - Proceeding with invalid API key configuration - operations will likely fail
+2025-07-24 11:08:09.369 | ERROR    | src.ai_assistant.assistant:__init__:60 - Failed to initialize OpenAI client: OpenAIError: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable
+2025-07-24 11:08:09.369 | WARNING  | src.ai_assistant.assistant:_validate_api_key:92 - OpenAI API key is not set. Please check your .env file or environment variables.
+2025-07-24 11:08:09.369 | INFO     | src.ai_assistant.assistant:_validate_api_key:93 - Make sure OPENAI_API_KEY is properly set in your environment or .env file.
+2025-07-24 11:08:09.369 | INFO     | __main__:test_missing_api_key:126 - Result: {'error': 'OpenAI API key is missing, empty, or invalid.', 'suggestion': "Please check your OPENAI_API_KEY environment variable or .env file. The key should start with 'sk-' and be at least 40 characters long.", 'status': 'configuration_error'}
+2025-07-24 11:08:09.369 | INFO     | __main__:test_missing_api_key:130 - Missing API key test: ✅ PASSED
+2025-07-24 11:08:09.369 | INFO     | __main__:test_connection_error:52 - 
+=== TESTING CONNECTION ERROR ===
+2025-07-24 11:08:17.840 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:08:17.840 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:08:17.843 | INFO     | src.ai_assistant.assistant:__init__:37 - Using custom OpenAI base URL: https://nonexistent-api-endpoint.example.com/v1
+2025-07-24 11:08:17.843 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:08:17.843 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:08:17.843 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:08:17.843 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Find all influencers in France'
+2025-07-24 11:08:19.077 | ERROR    | src.ai_assistant.assistant:check_api_connectivity:85 - Error checking OpenAI API connectivity: APIConnectionError: Connection error.
+2025-07-24 11:08:19.077 | INFO     | __main__:test_connection_error:66 - Connection error test: ✅ PASSED
+2025-07-24 11:08:19.077 | INFO     | __main__:test_railway_environment:77 - 
+=== TESTING RAILWAY ENVIRONMENT ===
+2025-07-24 11:08:27.578 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-24 11:08:27.578 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-24 11:08:27.578 | INFO     | src.ai_assistant.assistant:__init__:37 - Using custom OpenAI base URL: https://nonexistent-api-endpoint.example.com/v1
+2025-07-24 11:08:27.578 | INFO     | src.ai_assistant.assistant:__init__:44 - Detected Railway deployment environment
+2025-07-24 11:08:27.578 | INFO     | src.ai_assistant.assistant:__init__:45 - Ensuring outbound connections are properly configured for Railway
+2025-07-24 11:08:27.586 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:08:27.593 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-24 11:08:27.593 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:114 - OpenAI API key format validation passed
+2025-07-24 11:08:27.593 | INFO     | src.ai_assistant.assistant:process_command:234 - Checking OpenAI API connectivity before processing command: 'Find all influencers in France'
+2025-07-24 11:08:29.260 | ERROR    | src.ai_assistant.assistant:check_api_connectivity:85 - Error checking OpenAI API connectivity: APIConnectionError: Connection error.
+2025-07-24 11:08:29.260 | INFO     | __main__:test_railway_environment:93 - Railway environment test: ✅ PASSED
+2025-07-24 11:08:29.261 | INFO     | __main__:run_all_tests:158 - 
+=== TEST SUMMARY ===
+2025-07-24 11:08:29.261 | INFO     | __main__:run_all_tests:162 - Normal operation: ✅ PASSED
+2025-07-24 11:08:29.261 | INFO     | __main__:run_all_tests:162 - Invalid API key: ✅ PASSED
+2025-07-24 11:08:29.264 | INFO     | __main__:run_all_tests:162 - Missing API key: ✅ PASSED
+2025-07-24 11:08:29.264 | INFO     | __main__:run_all_tests:162 - Connection error: ✅ PASSED
+2025-07-24 11:08:29.264 | INFO     | __main__:run_all_tests:162 - Railway environment: ✅ PASSED
+2025-07-24 11:08:29.264 | INFO     | __main__:run_all_tests:166 - 
+Overall result: ✅ ALL TESTS PASSED

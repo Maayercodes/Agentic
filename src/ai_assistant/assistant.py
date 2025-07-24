@@ -17,21 +17,52 @@ load_dotenv()
 class AIAssistant:
     def __init__(self, session: Session):
         self.session = session
+        
+        # Load environment variables with logging
         self.openai_api_key = os.getenv('OPENAI_API_KEY')
+        if not self.openai_api_key:
+            logger.warning("OPENAI_API_KEY environment variable is not set")
+        
         self.model = os.getenv('OPENAI_MODEL', "gpt-3.5-turbo")
+        logger.info(f"Using OpenAI model: {self.model}")
+        
         self.max_retries = int(os.getenv('MAX_RETRIES', 3))
+        logger.info(f"Maximum retry attempts set to: {self.max_retries}")
+        
         self.retry_delay = 1  # Initial delay in seconds
-        self.openai_base_url = os.getenv('OPENAI_BASE_URL')  # Optional custom base URL
         
-        # Validate API key format
-        self._validate_api_key()
-        
-        # Initialize the OpenAI client with optional base URL
+        # Check for custom base URL
+        self.openai_base_url = os.getenv('OPENAI_BASE_URL')
         if self.openai_base_url:
-            self.client = AsyncOpenAI(api_key=self.openai_api_key, base_url=self.openai_base_url)
             logger.info(f"Using custom OpenAI base URL: {self.openai_base_url}")
         else:
-            self.client = AsyncOpenAI(api_key=self.openai_api_key)
+            logger.info("Using default OpenAI API endpoint")
+        
+        # Check for deployment environment
+        self.is_railway = os.getenv('RAILWAY_ENVIRONMENT') is not None
+        if self.is_railway:
+            logger.info("Detected Railway deployment environment")
+            logger.info("Ensuring outbound connections are properly configured for Railway")
+        
+        # Validate API key format
+        is_valid = self._validate_api_key()
+        if not is_valid:
+            logger.warning("Proceeding with invalid API key configuration - operations will likely fail")
+        
+        # Initialize the OpenAI client with optional base URL
+        try:
+            if self.openai_base_url:
+                self.client = AsyncOpenAI(api_key=self.openai_api_key, base_url=self.openai_base_url)
+            else:
+                self.client = AsyncOpenAI(api_key=self.openai_api_key)
+            logger.info("Successfully initialized OpenAI client")
+        except Exception as e:
+            logger.error(f"Failed to initialize OpenAI client: {type(e).__name__}: {str(e)}")
+            # Still create the client to avoid NoneType errors, but operations will fail
+            if self.openai_base_url:
+                self.client = AsyncOpenAI(api_key=self.openai_api_key or "invalid-key", base_url=self.openai_base_url)
+            else:
+                self.client = AsyncOpenAI(api_key=self.openai_api_key or "invalid-key")
             
         self.email_sender = EmailSender(session)
         
@@ -44,6 +75,11 @@ class AIAssistant:
             return True
         except requests.exceptions.ConnectionError as e:
             logger.error(f"Failed to connect to OpenAI API: {str(e)}")
+            logger.warning("This could be due to network issues, firewall restrictions, or incorrect API base URL")
+            return False
+        except requests.exceptions.RequestException as e:
+            logger.error(f"API request failed: {str(e)}")
+            logger.warning("This could be due to rate limiting, invalid authentication, or service outage")
             return False
         except Exception as e:
             logger.error(f"Error checking OpenAI API connectivity: {type(e).__name__}: {str(e)}")
@@ -51,36 +87,58 @@ class AIAssistant:
         
     def _validate_api_key(self):
         """Validate the OpenAI API key format and log appropriate warnings."""
+        # Check if API key is set in environment
         if not self.openai_api_key:
-            logger.warning("OpenAI API key is not set. Please check your .env file.")
+            logger.warning("OpenAI API key is not set. Please check your .env file or environment variables.")
+            logger.info("Make sure OPENAI_API_KEY is properly set in your environment or .env file.")
             return False
             
+        # Check if API key is empty
         if self.openai_api_key.strip() == "":
-            logger.warning("OpenAI API key is empty. Please check your .env file.")
+            logger.warning("OpenAI API key is empty. Please check your .env file or environment variables.")
+            logger.info("The OPENAI_API_KEY environment variable exists but contains no value.")
             return False
             
         # Check for common API key format patterns
-        if self.openai_api_key.startswith("sk-") and len(self.openai_api_key) > 20:
-            return True
-        else:
-            logger.warning("OpenAI API key may be malformed. It should start with 'sk-' and be at least 20 characters long.")
+        if not self.openai_api_key.startswith("sk-"):
+            logger.warning("OpenAI API key has incorrect format. It should start with 'sk-'.")
+            logger.info("Your API key appears to be malformed. Please check for typos or incorrect copying.")
             return False
+            
+        if len(self.openai_api_key) < 40:  # Most OpenAI keys are longer than this
+            logger.warning("OpenAI API key appears too short. Standard keys are at least 40 characters.")
+            logger.info("Your API key may be truncated or incomplete.")
+            return False
+            
+        # Key appears valid
+        logger.debug("OpenAI API key format validation passed")
+        return True
 
     async def _analyze_intent(self, command: str) -> Dict[str, Any]:
         # Check if API key is configured and valid
         if not self.openai_api_key or self.openai_api_key.strip() == "":
-            logger.error("OpenAI API key is missing or empty. Please check your .env file.")
-            raise ValueError("OpenAI API key is missing or empty")
+            error_msg = "OpenAI API key is missing or empty. Please check your .env file or environment variables."
+            logger.error(error_msg)
+            raise ValueError(error_msg)
             
         # Additional validation for API key format
-        if not self.openai_api_key.startswith("sk-") or len(self.openai_api_key) < 20:
-            logger.error("OpenAI API key appears to be malformed. It should start with 'sk-' and be at least 20 characters long.")
-            raise ValueError("OpenAI API key appears to be malformed")
+        if not self.openai_api_key.startswith("sk-"):
+            error_msg = "OpenAI API key has incorrect format. It should start with 'sk-'."
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+            
+        if len(self.openai_api_key) < 40:  # Most OpenAI keys are longer than this
+            error_msg = "OpenAI API key appears too short. Standard keys are at least 40 characters."
+            logger.error(error_msg)
+            raise ValueError(error_msg)
         
         # Initialize retry counter and last error
         retries = 0
         last_error = None
         retry_delay = self.retry_delay
+        
+        # Log the start of intent analysis
+        logger.info(f"Starting intent analysis for command: '{command[:50]}{'...' if len(command) > 50 else ''}' using model {self.model}")
         
         # Implement retry logic
         while retries <= self.max_retries:
@@ -109,45 +167,91 @@ class AIAssistant:
                 
                 return json.loads(response.choices[0].message.content)
                 
-            except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as re:
+            except requests.exceptions.ConnectionError as ce:
                 # Handle connection errors with retry
-                last_error = re
+                last_error = ce
                 retries += 1
                 
                 if retries <= self.max_retries:
-                    logger.warning(f"Connection error during intent analysis (attempt {retries}/{self.max_retries}): {str(re)}")
+                    logger.warning(f"Connection error during intent analysis (attempt {retries}/{self.max_retries}): {str(ce)}")
+                    logger.info(f"This could be due to network issues, firewall restrictions, or Railway blocking outbound requests")
                     logger.info(f"Retrying in {retry_delay} seconds...")
                     await asyncio.sleep(retry_delay)
                     # Exponential backoff
                     retry_delay *= 2
                 else:
-                    logger.error(f"Connection error during intent analysis after {self.max_retries} retries: {str(re)}")
-                    raise ConnectionError(f"Connection error after {self.max_retries} retries: {str(re)}")
+                    logger.error(f"Connection error during intent analysis after {self.max_retries} retries: {str(ce)}")
+                    logger.error("Please check your network connection, firewall settings, or deployment environment restrictions")
+                    raise ConnectionError(f"Connection error after {self.max_retries} retries: {str(ce)}")
+            
+            except requests.exceptions.RequestException as re:
+                # Handle other request exceptions (timeout, TLS issues, etc)
+                last_error = re
+                retries += 1
+                
+                if retries <= self.max_retries:
+                    logger.warning(f"Request error during intent analysis (attempt {retries}/{self.max_retries}): {str(re)}")
+                    logger.info(f"This could be due to API rate limits, timeouts, or service issues")
+                    logger.info(f"Retrying in {retry_delay} seconds...")
+                    await asyncio.sleep(retry_delay)
+                    # Exponential backoff
+                    retry_delay *= 2
+                else:
+                    logger.error(f"Request error during intent analysis after {self.max_retries} retries: {str(re)}")
+                    logger.error("Please check the OpenAI service status or your API usage limits")
+                    raise ConnectionError(f"API request error after {self.max_retries} retries: {str(re)}")
             
             except ValueError as ve:
                 # Handle value errors (like missing API key or malformed response)
                 logger.error(f"Intent analysis failed: {str(ve)}")
+                if "API key" in str(ve):
+                    logger.error("Please check your OPENAI_API_KEY environment variable or .env file")
                 raise
                 
             except json.JSONDecodeError as je:
                 # Handle JSON parsing errors
                 logger.error(f"Failed to parse OpenAI response: {str(je)}")
+                logger.error("The API returned a response that couldn't be parsed as JSON")
                 raise ValueError(f"Failed to parse OpenAI response: {str(je)}")
                 
             except Exception as e:
                 # Handle other unexpected errors
                 logger.error(f"Intent analysis failed with unexpected error: {type(e).__name__}: {str(e)}")
+                logger.error(f"This is an unhandled exception. Please check the logs for more details.")
                 raise
 
     async def process_command(self, command: str) -> Dict[str, Any]:
         try:
-            # Check API connectivity first
-            if not await self.check_api_connectivity():
+            # Validate environment variables first
+            if not self._validate_api_key():
                 return {
-                    "error": "Unable to connect to OpenAI API. Please check your internet connection and API configuration.",
-                    "suggestion": "Verify your network connection and OpenAI API key configuration."
+                    "error": "OpenAI API key is missing, empty, or invalid.",
+                    "suggestion": "Please check your OPENAI_API_KEY environment variable or .env file. The key should start with 'sk-' and be at least 40 characters long.",
+                    "status": "configuration_error"
                 }
                 
+            # Check API connectivity
+            logger.info(f"Checking OpenAI API connectivity before processing command: '{command[:50]}{'...' if len(command) > 50 else ''}'")
+            if not await self.check_api_connectivity():
+                # Check if we're in a restricted environment like Railway
+                is_railway = os.getenv('RAILWAY_ENVIRONMENT') is not None
+                
+                error_message = "Unable to connect to OpenAI API."
+                suggestion = "Please check your internet connection and API configuration."
+                
+                if is_railway:
+                    error_message += " This may be due to Railway's outbound request restrictions."
+                    suggestion += " You may need to configure Railway to allow outbound connections to the OpenAI API."
+                
+                return {
+                    "error": error_message,
+                    "suggestion": suggestion,
+                    "status": "connection_error",
+                    "environment": "railway" if is_railway else "unknown"
+                }
+                
+            # Process the command
+            logger.info(f"Processing command: '{command}'")
             intent = await self._analyze_intent(command)
 
             # Add fallback for missing 'target_type'
@@ -155,9 +259,12 @@ class AIAssistant:
                 if 'target_type' not in intent['params']:
                     if 'daycare' in command.lower():
                         intent['params']['target_type'] = 'daycare'
+                        logger.info("Added missing target_type 'daycare' based on command text")
                     elif 'influencer' in command.lower():
                         intent['params']['target_type'] = 'influencer'
+                        logger.info("Added missing target_type 'influencer' based on command text")
 
+            # Handle the intent
             if intent['action'] == 'search_influencers':
                 return await self._handle_influencer_search(intent['params'])
             elif intent['action'] == 'search_daycares':
@@ -165,27 +272,61 @@ class AIAssistant:
             elif intent['action'] == 'send_outreach':
                 return await self._handle_outreach(intent['params'])
             else:
-                return {"error": "Unsupported command"}
+                logger.warning(f"Unsupported action in intent: {intent['action']}")
+                return {
+                    "error": "Unsupported command",
+                    "suggestion": "Try using one of these commands: search for influencers, search for daycares, or send outreach emails.",
+                    "status": "unsupported_action"
+                }
         except ConnectionError as ce:
             logger.error(f"Connection error in command processing: {str(ce)}")
+            
+            # Check if we're in a restricted environment like Railway
+            is_railway = os.getenv('RAILWAY_ENVIRONMENT') is not None
+            suggestion = "You can try using a simpler command or check your API configuration."
+            
+            if is_railway:
+                suggestion += " If you're deploying on Railway, make sure outbound connections to the OpenAI API are allowed."
+            
             return {
                 "error": "Unable to connect to OpenAI API. Please check your internet connection and try again later.",
                 "details": str(ce),
-                "suggestion": "You can try using a simpler command or check your API configuration."
+                "suggestion": suggestion,
+                "status": "connection_error",
+                "environment": "railway" if is_railway else "unknown"
             }
         except ValueError as ve:
             if "API key" in str(ve):
                 logger.error(f"API key error: {str(ve)}")
                 return {
-                    "error": "OpenAI API key is missing or invalid. Please check your configuration.",
-                    "details": str(ve)
+                    "error": "OpenAI API key is missing or invalid.",
+                    "details": str(ve),
+                    "suggestion": "Please check your OPENAI_API_KEY environment variable or .env file.",
+                    "status": "api_key_error"
                 }
             else:
                 logger.error(f"Value error in command processing: {str(ve)}")
-                return {"error": str(ve)}
+                return {
+                    "error": str(ve),
+                    "suggestion": "Please check your command format and try again.",
+                    "status": "value_error"
+                }
+        except json.JSONDecodeError as je:
+            logger.error(f"JSON decode error in command processing: {str(je)}")
+            return {
+                "error": "Failed to parse API response.",
+                "details": str(je),
+                "suggestion": "This is likely a temporary issue with the OpenAI API. Please try again later.",
+                "status": "json_error"
+            }
         except Exception as e:
             logger.error(f"Command processing failed: {type(e).__name__}: {str(e)}")
-            return {"error": str(e)}
+            return {
+                "error": f"An unexpected error occurred: {str(e)}",
+                "suggestion": "Please check the application logs for more details.",
+                "status": "unexpected_error",
+                "error_type": type(e).__name__
+            }
 
     async def _handle_influencer_search(self, params: Dict[str, Any]) -> Dict[str, Any]:
         query = self.session.query(Influencer)
