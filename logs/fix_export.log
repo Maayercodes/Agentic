@@ -1,0 +1,15 @@
+2025-07-28 11:31:23.716 | INFO     | __main__:test_export:180 - Initializing database session...
+2025-07-28 11:31:35.896 | INFO     | __main__:test_export:184 - Testing daycare export...
+2025-07-28 11:31:35.896 | INFO     | __main__:export_to_csv:31 - Starting export of daycares to CSV
+2025-07-28 11:31:37.706 | INFO     | __main__:export_to_csv:64 - Found 122 daycares to export
+2025-07-28 11:31:37.706 | INFO     | __main__:export_to_csv:74 - Attempting to create CSV at: C:\Users\hassa\AppData\Local\Temp\daycares_export_20250728_113137.csv
+2025-07-28 11:31:37.706 | INFO     | __main__:export_to_csv:102 - Successfully created CSV at C:\Users\hassa\AppData\Local\Temp\daycares_export_20250728_113137.csv (size: 25181 bytes)
+2025-07-28 11:31:37.724 | INFO     | __main__:export_to_csv:107 - CSV header: id,name,address,city,email,phone,website,region,source,last_contacted,email_opened,email_replied,created_at,updated_at
+2025-07-28 11:31:37.724 | INFO     | __main__:test_export:191 - Daycare export successful: C:\Users\hassa\AppData\Local\Temp\daycares_export_20250728_113137.csv
+2025-07-28 11:31:37.724 | INFO     | __main__:test_export:195 - Testing influencer export...
+2025-07-28 11:31:37.724 | INFO     | __main__:export_to_csv:31 - Starting export of influencers to CSV
+2025-07-28 11:31:39.510 | INFO     | __main__:export_to_csv:64 - Found 111 influencers to export
+2025-07-28 11:31:39.510 | INFO     | __main__:export_to_csv:74 - Attempting to create CSV at: C:\Users\hassa\AppData\Local\Temp\influencers_export_20250728_113139.csv
+2025-07-28 11:31:39.514 | INFO     | __main__:export_to_csv:102 - Successfully created CSV at C:\Users\hassa\AppData\Local\Temp\influencers_export_20250728_113139.csv (size: 89818 bytes)
+2025-07-28 11:31:39.537 | INFO     | __main__:export_to_csv:107 - CSV header: id,name,platform,follower_count,country,email,bio,contact_page,niche,last_contacted,email_opened,email_replied,engagement_rate,created_at,updated_at
+2025-07-28 11:31:39.537 | INFO     | __main__:test_export:202 - Influencer export successful: C:\Users\hassa\AppData\Local\Temp\influencers_export_20250728_113139.csv

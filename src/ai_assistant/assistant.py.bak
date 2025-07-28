@@ -163,8 +163,8 @@ class AIAssistant:
                             "role": "system",
                             "content": (
                                 "Analyze this marketing command and return JSON with:\n"
-                                "- \"action\": \"search_influencers\", \"search_daycares\", \"send_outreach\", or \"export_contacts\"\n"
-                                "- \"params\": {relevant parameters including \"target_type\" for outreach and export commands}"
+                                "- \"action\": \"search_influencers\", \"search_daycares\", or \"send_outreach\"\n"
+                                "- \"params\": {relevant parameters including \"target_type\" for outreach commands}"
                             )
                         },
                         {"role": "user", "content": command}
@@ -454,14 +454,12 @@ class AIAssistant:
             return {"error": str(e)}
     
     async def _handle_export(self, params: Dict[str, Any]) -> Dict[str, Any]:
-        """Handle export contacts command with improved error handling and path management."""
+        """Handle export contacts command."""
         try:
             import csv
             import tempfile
             import os
             from datetime import datetime
-            
-            logger.info(f"Starting export with params: {params}")
             
             target_type = params.get('target_type', '').lower().strip()
             export_format = params.get('format', 'csv').lower().strip()
@@ -473,143 +471,67 @@ class AIAssistant:
             # Create query based on target type
             if 'daycare' in target_type:
                 query = self.session.query(Daycare)
-                if region and region.lower() not in ['all regions', 'all countries']:
+                if region:
                     query = query.filter(Daycare.region == region)
                 contacts = query.all()
                 
                 # Define fields for CSV
-                fieldnames = ['id', 'name', 'address', 'city', 'email', 'phone', 'website', 'region', 'source', 
+                fieldnames = ['name', 'address', 'city', 'email', 'phone', 'website', 'region', 'source', 
                              'last_contacted', 'email_opened', 'email_replied', 'created_at', 'updated_at']
                 
             elif 'influencer' in target_type:
                 query = self.session.query(Influencer)
-                if region and region.lower() not in ['all regions', 'all countries']:
+                if region:
                     query = query.filter(Influencer.country == region)
                 contacts = query.all()
                 
                 # Define fields for CSV
-                fieldnames = ['id', 'name', 'platform', 'follower_count', 'country', 'email', 'bio', 'contact_page', 
-                             'niche', 'last_contacted', 'email_opened', 'email_replied', 'engagement_rate', 
-                             'created_at', 'updated_at']
+                fieldnames = ['name', 'email', 'platform', 'follower_count', 'country', 'niche', 
+                             'last_contacted', 'email_opened', 'email_replied', 'created_at', 'updated_at']
             else:
-                error_msg = f"Unsupported target_type: {target_type}. Use 'daycare' or 'influencer'."
-                logger.error(error_msg)
-                return {"error": error_msg}
+                return {"error": f"Unsupported target_type: {target_type}. Use 'daycare' or 'influencer'."}
             
             if not contacts:
-                error_msg = f"No {target_type}s found matching your criteria."
-                logger.warning(error_msg)
-                return {"error": error_msg}
+                return {"error": f"No {target_type}s found matching your criteria."}
             
-            logger.info(f"Found {len(contacts)} {target_type}s to export")
-            
-            # Create a temporary file with proper error handling
+            # Create a temporary file
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"{target_type}s_export_{timestamp}.csv"
+            filepath = os.path.join(tempfile.gettempdir(), filename)
             
-            # Try system temp directory first
-            try:
-                system_temp = tempfile.gettempdir()
-                filepath = os.path.join(system_temp, filename)
-                logger.info(f"Attempting to create CSV at: {filepath}")
+            # Write data to CSV
+            with open(filepath, 'w', newline='', encoding='utf-8') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
                 
-                # Write data to CSV
-                with open(filepath, 'w', newline='', encoding='utf-8') as csvfile:
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                    writer.writeheader()
-                    
-                    for contact in contacts:
-                        row = {}
-                        for field in fieldnames:
-                            value = getattr(contact, field, None)
+                for contact in contacts:
+                    row = {}
+                    for field in fieldnames:
+                        value = getattr(contact, field, None)
+                        
+                        # Handle Enum values
+                        if hasattr(value, 'value'):
+                            value = value.value
                             
-                            # Handle Enum values
-                            if hasattr(value, 'value'):
-                                value = value.value
-                                
-                            # Format datetime objects
-                            if isinstance(value, datetime):
-                                value = value.strftime("%Y-%m-%d %H:%M:%S")
-                                
-                            row[field] = value
-                        writer.writerow(row)
-                
-                # Verify file was created
-                if not os.path.exists(filepath):
-                    raise FileNotFoundError(f"File was not created at {filepath}")
-                    
-                file_size = os.path.getsize(filepath)
-                logger.info(f"Successfully created CSV at {filepath} (size: {file_size} bytes)")
-                
-                # Read file to verify content
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    first_line = f.readline().strip()
-                    logger.info(f"CSV header: {first_line}")
-                
-                return {
-                    "success": True,
-                    "message": f"Successfully exported {len(contacts)} {target_type}s to CSV",
-                    "file_path": filepath,
-                    "file_name": filename,
-                    "contact_count": len(contacts)
-                }
-                
-            except Exception as e:
-                logger.error(f"Error creating CSV in temp directory: {str(e)}")
-                
-                # Fallback to project directory
-                try:
-                    logger.info("Falling back to project directory for CSV export")
-                    project_dir = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-                    data_dir = os.path.join(project_dir, "data")
-                    os.makedirs(data_dir, exist_ok=True)
-                    filepath = os.path.join(data_dir, filename)
-                    
-                    logger.info(f"Attempting to create CSV at: {filepath}")
-                    
-                    # Write data to CSV
-                    with open(filepath, 'w', newline='', encoding='utf-8') as csvfile:
-                        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                        writer.writeheader()
-                        
-                        for contact in contacts:
-                            row = {}
-                            for field in fieldnames:
-                                value = getattr(contact, field, None)
-                                
-                                # Handle Enum values
-                                if hasattr(value, 'value'):
-                                    value = value.value
-                                    
-                                # Format datetime objects
-                                if isinstance(value, datetime):
-                                    value = value.strftime("%Y-%m-%d %H:%M:%S")
-                                    
-                                row[field] = value
-                            writer.writerow(row)
-                    
-                    # Verify file was created
-                    if not os.path.exists(filepath):
-                        raise FileNotFoundError(f"File was not created at {filepath}")
-                        
-                    file_size = os.path.getsize(filepath)
-                    logger.info(f"Successfully created CSV at {filepath} (size: {file_size} bytes)")
-                    
-                    return {
-                        "success": True,
-                        "message": f"Successfully exported {len(contacts)} {target_type}s to CSV",
-                        "file_path": filepath,
-                        "file_name": filename,
-                        "contact_count": len(contacts)
-                    }
-                    
-                except Exception as e2:
-                    logger.error(f"Error creating CSV in project directory: {str(e2)}")
-                    return {"error": f"Failed to create CSV file: {str(e2)}"}
-        
+                        # Format datetime objects
+                        if isinstance(value, datetime):
+                            value = value.strftime("%Y-%m-%d %H:%M:%S")
+                            
+                        row[field] = value
+                    writer.writerow(row)
+            
+            return {
+                "success": True,
+                "message": f"Successfully exported {len(contacts)} {target_type}s to CSV",
+                "file_path": filepath,
+                "file_name": filename,
+                "contact_count": len(contacts)
+            }
+            
         except Exception as e:
             logger.error(f"Error in export contacts: {str(e)}")
-            return {"error": f"Export failed: {str(e)}"}
+            return {"error": str(e)}
+
 
     def _generate_fallback_response(self, command: str) -> Dict[str, Any]:
         """

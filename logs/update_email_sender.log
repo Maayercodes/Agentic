@@ -1,0 +1,2 @@
+2025-07-28 11:34:12.950 | INFO     | __main__:update_email_sender_function:165 - Created backup of email_sender.py at D:\AI_Marketing_Outreach\src\outreach\email_sender.py.bak
+2025-07-28 11:34:12.951 | INFO     | __main__:update_email_sender_function:170 - Updated _send_email function in D:\AI_Marketing_Outreach\src\outreach\email_sender.py

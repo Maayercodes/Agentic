@@ -62,7 +62,8 @@ class Influencer(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
-        return f"<Influencer(name='{self.name}', platform='{self.platform.value}', followers='{self.follower_count}')>"
+        platform_str = self.platform.value if hasattr(self.platform, 'value') else str(self.platform)
+        return f"<Influencer(name='{self.name}', platform='{platform_str}', followers='{self.follower_count}')>"
 
 class OutreachHistory(Base):
     __tablename__ = 'outreach_history'

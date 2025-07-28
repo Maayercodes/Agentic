@@ -10,7 +10,6 @@ from loguru import logger
 
 from ..database.models import Daycare, Influencer, OutreachHistory
 
-import socket
 # Load environment variables
 load_dotenv()
 
@@ -176,44 +175,18 @@ class EmailSender:
             content_type = 'html' if '<html' in body.lower() else 'plain'
             msg.attach(MIMEText(body, content_type))
 
-            try:
-                with smtplib.SMTP(self.smtp_server, self.smtp_port, timeout=10) as server:
-                    server.starttls()
-                    # Always use the configured account for authentication
-                    # even if sending from a different address
-                    server.login(self.sender_email, self.password)
-                    server.send_message(msg)
+            with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+                server.starttls()
+                # Always use the configured account for authentication
+                # even if sending from a different address
+                server.login(self.sender_email, self.password)
+                server.send_message(msg)
 
-                logger.info(f"Email sent successfully to {recipient_email} from {sender_email}")
-                return True
-                
-            except socket.timeout:
-                logger.error(f"Timeout connecting to {self.smtp_server}:{self.smtp_port}")
-                # Record the outreach attempt even if email sending fails due to network issues
-                self._record_outreach_attempt(recipient_email, subject, body, "timeout")
-                return False
-                
-            except socket.gaierror:
-                logger.error(f"DNS resolution failed for {self.smtp_server}")
-                self._record_outreach_attempt(recipient_email, subject, body, "dns_error")
-                return False
-                
-            except ConnectionRefusedError:
-                logger.error(f"Connection refused by {self.smtp_server}:{self.smtp_port}")
-                self._record_outreach_attempt(recipient_email, subject, body, "connection_refused")
-                return False
-                
-            except smtplib.SMTPAuthenticationError:
-                logger.error("SMTP authentication failed")
-                return False
-                
-            except Exception as smtp_error:
-                logger.error(f"SMTP error: {str(smtp_error)}")
-                self._record_outreach_attempt(recipient_email, subject, body, f"smtp_error: {str(smtp_error)}")
-                return False
+            logger.info(f"Email sent successfully to {recipient_email} from {sender_email}")
+            return True
 
         except Exception as e:
-            logger.error(f"Error preparing email for {recipient_email}: {str(e)}")
+            logger.error(f"SMTP error for {recipient_email}: {str(e)}")
             return False
 
     def _record_outreach(self, target: Union[Daycare, Influencer], target_type: str,
@@ -233,49 +206,6 @@ class EmailSender:
         except Exception as e:
             self.session.rollback()
             logger.error(f"Database error when recording outreach: {str(e)}")
-
-    def _record_outreach_attempt(self, recipient_email: str, subject: str, content: str, error_type: str) -> None:
-        """Record an outreach attempt even when actual email sending fails due to network issues"""
-        try:
-            # Try to find the target based on email
-            daycare = self.session.query(Daycare).filter(Daycare.email == recipient_email).first()
-            influencer = self.session.query(Influencer).filter(Influencer.email == recipient_email).first()
-            
-            if daycare:
-                target_type = "daycare"
-                target_id = daycare.id
-                language = 'fr' if (daycare.region or '').strip().upper() == 'FRANCE' else 'en'
-            elif influencer:
-                target_type = "influencer"
-                target_id = influencer.id
-                language = 'fr' if (influencer.country or '').strip().upper() == 'FRANCE' else 'en'
-            else:
-                logger.warning(f"Could not find target with email {recipient_email} for outreach recording")
-                return
-            
-            # Create outreach history record
-            history = OutreachHistory(
-                target_type=target_type,
-                target_id=target_id,
-                email_subject=subject,
-                email_content=content + f"\n\nNote: Email sending failed: {error_type}",  # Add error info to content
-                language=language,
-                bounced=True  # Mark as bounced since it failed to send
-            )
-            self.session.add(history)
-            
-            # Update last_contacted timestamp
-            if daycare:
-                daycare.last_contacted = datetime.utcnow()
-            elif influencer:
-                influencer.last_contacted = datetime.utcnow()
-                
-            self.session.commit()
-            logger.info(f"Recorded outreach attempt for {recipient_email} despite sending failure")
-            
-        except Exception as e:
-            self.session.rollback()
-            logger.error(f"Database error when recording outreach attempt: {str(e)}")
 
 # Optional: local testing only
 if __name__ == '__main__':

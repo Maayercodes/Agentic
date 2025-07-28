@@ -1,0 +1,59 @@
+2025-07-28 11:17:18.103 | INFO     | __main__:test_csv_export:16 - Initializing database session...
+2025-07-28 11:17:29.946 | INFO     | __main__:test_csv_export:20 - Testing daycare CSV export...
+2025-07-28 11:17:31.523 | INFO     | __main__:export_to_csv:93 - Successfully exported 121 daycares to CSV at C:\Users\hassa\AppData\Local\Temp\daycares_export_20250728_111731.csv (size: 24586 bytes)
+2025-07-28 11:17:31.523 | INFO     | __main__:test_csv_export:24 - Testing influencer CSV export...
+2025-07-28 11:17:32.439 | INFO     | __main__:export_to_csv:93 - Successfully exported 110 influencers to CSV at C:\Users\hassa\AppData\Local\Temp\influencers_export_20250728_111732.csv (size: 13088 bytes)
+2025-07-28 11:55:14.718 | INFO     | __main__:test_csv_export:19 - Initializing database session and assistant...
+2025-07-28 11:55:25.184 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-28 11:55:25.186 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-28 11:55:25.188 | INFO     | src.ai_assistant.assistant:__init__:37 - Using custom OpenAI base URL: https://api.openai.com/v1
+2025-07-28 11:55:25.195 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:125 - OpenAI API key format validation passed
+2025-07-28 11:55:25.452 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-28 11:55:25.452 | INFO     | __main__:test_csv_export:24 - Testing daycare export...
+2025-07-28 11:55:25.452 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:125 - OpenAI API key format validation passed
+2025-07-28 11:55:25.452 | INFO     | src.ai_assistant.assistant:process_command:245 - Checking OpenAI API connectivity before processing command: 'Export daycares to CSV'
+2025-07-28 11:55:27.789 | INFO     | src.ai_assistant.assistant:_check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-28 11:55:27.789 | INFO     | src.ai_assistant.assistant:process_command:284 - Processing command: 'Export daycares to CSV'
+2025-07-28 11:55:27.789 | INFO     | src.ai_assistant.assistant:_analyze_intent:152 - Starting intent analysis for command: 'Export daycares to CSV' using model gpt-3.5-turbo
+2025-07-28 11:55:27.789 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:158 - Attempt 1/4 to analyze intent
+2025-07-28 11:55:33.191 | INFO     | __main__:test_csv_export:32 - Daycare export successful: No file path returned
+2025-07-28 11:55:33.192 | INFO     | __main__:test_csv_export:47 - Testing influencer export...
+2025-07-28 11:55:33.193 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:125 - OpenAI API key format validation passed
+2025-07-28 11:55:33.193 | INFO     | src.ai_assistant.assistant:process_command:245 - Checking OpenAI API connectivity before processing command: 'Export influencers to CSV'
+2025-07-28 11:55:35.156 | INFO     | src.ai_assistant.assistant:_check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-28 11:55:35.156 | INFO     | src.ai_assistant.assistant:process_command:284 - Processing command: 'Export influencers to CSV'
+2025-07-28 11:55:35.156 | INFO     | src.ai_assistant.assistant:_analyze_intent:152 - Starting intent analysis for command: 'Export influencers to CSV' using model gpt-3.5-turbo
+2025-07-28 11:55:35.156 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:158 - Attempt 1/4 to analyze intent
+2025-07-28 11:55:41.969 | INFO     | __main__:test_csv_export:55 - Influencer export successful: No file path returned
+2025-07-28 11:56:42.673 | INFO     | __main__:test_csv_export:19 - Initializing database session and assistant...
+2025-07-28 11:56:51.342 | INFO     | src.ai_assistant.assistant:__init__:27 - Using OpenAI model: gpt-3.5-turbo
+2025-07-28 11:56:51.342 | INFO     | src.ai_assistant.assistant:__init__:30 - Maximum retry attempts set to: 3
+2025-07-28 11:56:51.342 | INFO     | src.ai_assistant.assistant:__init__:37 - Using custom OpenAI base URL: https://api.openai.com/v1
+2025-07-28 11:56:51.342 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:125 - OpenAI API key format validation passed
+2025-07-28 11:56:51.505 | INFO     | src.ai_assistant.assistant:__init__:58 - Successfully initialized OpenAI client
+2025-07-28 11:56:51.505 | INFO     | __main__:test_csv_export:24 - Testing daycare export...
+2025-07-28 11:56:51.505 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:125 - OpenAI API key format validation passed
+2025-07-28 11:56:51.505 | INFO     | src.ai_assistant.assistant:process_command:245 - Checking OpenAI API connectivity before processing command: 'Export daycares to CSV'
+2025-07-28 11:56:53.462 | INFO     | src.ai_assistant.assistant:_check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-28 11:56:53.462 | INFO     | src.ai_assistant.assistant:process_command:284 - Processing command: 'Export daycares to CSV'
+2025-07-28 11:56:53.462 | INFO     | src.ai_assistant.assistant:_analyze_intent:152 - Starting intent analysis for command: 'Export daycares to CSV' using model gpt-3.5-turbo
+2025-07-28 11:56:53.462 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:158 - Attempt 1/4 to analyze intent
+2025-07-28 11:56:55.061 | INFO     | src.ai_assistant.assistant:_handle_export:464 - Starting export with params: {'target_type': 'daycares', 'export_format': 'CSV'}
+2025-07-28 11:56:56.742 | INFO     | src.ai_assistant.assistant:_handle_export:504 - Found 122 daycaress to export
+2025-07-28 11:56:56.744 | INFO     | src.ai_assistant.assistant:_handle_export:514 - Attempting to create CSV at: C:\Users\hassa\AppData\Local\Temp\daycaress_export_20250728_115656.csv
+2025-07-28 11:56:56.748 | INFO     | src.ai_assistant.assistant:_handle_export:542 - Successfully created CSV at C:\Users\hassa\AppData\Local\Temp\daycaress_export_20250728_115656.csv (size: 25181 bytes)
+2025-07-28 11:56:56.776 | INFO     | src.ai_assistant.assistant:_handle_export:547 - CSV header: id,name,address,city,email,phone,website,region,source,last_contacted,email_opened,email_replied,created_at,updated_at
+2025-07-28 11:56:56.776 | INFO     | __main__:test_csv_export:32 - Daycare export successful: C:\Users\hassa\AppData\Local\Temp\daycaress_export_20250728_115656.csv
+2025-07-28 11:56:56.777 | INFO     | __main__:test_csv_export:47 - Testing influencer export...
+2025-07-28 11:56:56.777 | DEBUG    | src.ai_assistant.assistant:_validate_api_key:125 - OpenAI API key format validation passed
+2025-07-28 11:56:56.777 | INFO     | src.ai_assistant.assistant:process_command:245 - Checking OpenAI API connectivity before processing command: 'Export influencers to CSV'
+2025-07-28 11:56:57.720 | INFO     | src.ai_assistant.assistant:_check_api_connectivity:74 - Successfully connected to OpenAI API
+2025-07-28 11:56:57.721 | INFO     | src.ai_assistant.assistant:process_command:284 - Processing command: 'Export influencers to CSV'
+2025-07-28 11:56:57.721 | INFO     | src.ai_assistant.assistant:_analyze_intent:152 - Starting intent analysis for command: 'Export influencers to CSV' using model gpt-3.5-turbo
+2025-07-28 11:56:57.721 | DEBUG    | src.ai_assistant.assistant:_analyze_intent:158 - Attempt 1/4 to analyze intent
+2025-07-28 11:56:58.828 | INFO     | src.ai_assistant.assistant:_handle_export:464 - Starting export with params: {'target_type': 'influencers', 'format': 'CSV'}
+2025-07-28 11:57:04.512 | INFO     | src.ai_assistant.assistant:_handle_export:504 - Found 111 influencerss to export
+2025-07-28 11:57:04.512 | INFO     | src.ai_assistant.assistant:_handle_export:514 - Attempting to create CSV at: C:\Users\hassa\AppData\Local\Temp\influencerss_export_20250728_115704.csv
+2025-07-28 11:57:04.518 | INFO     | src.ai_assistant.assistant:_handle_export:542 - Successfully created CSV at C:\Users\hassa\AppData\Local\Temp\influencerss_export_20250728_115704.csv (size: 89818 bytes)
+2025-07-28 11:57:04.556 | INFO     | src.ai_assistant.assistant:_handle_export:547 - CSV header: id,name,platform,follower_count,country,email,bio,contact_page,niche,last_contacted,email_opened,email_replied,engagement_rate,created_at,updated_at
+2025-07-28 11:57:04.556 | INFO     | __main__:test_csv_export:55 - Influencer export successful: C:\Users\hassa\AppData\Local\Temp\influencerss_export_20250728_115704.csv

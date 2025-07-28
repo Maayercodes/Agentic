@@ -1,0 +1,2 @@
+2025-07-28 11:33:13.224 | INFO     | __main__:update_assistant_export_function:209 - Created backup of assistant.py at D:\AI_Marketing_Outreach\src\ai_assistant\assistant.py.bak
+2025-07-28 11:33:13.225 | INFO     | __main__:update_assistant_export_function:214 - Updated _handle_export function in D:\AI_Marketing_Outreach\src\ai_assistant\assistant.py

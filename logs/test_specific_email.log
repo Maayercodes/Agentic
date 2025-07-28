@@ -1,0 +1,40 @@
+2025-07-28 12:10:59.507 | INFO     | __main__:test_specific_email_sending:26 - Testing email to: Tiny Tots and Toddlers Learning Academy & Preschool <tinytotsandtoddlers@gmail.com>
+2025-07-28 12:10:59.507 | INFO     | src.outreach.email_sender:send_batch:47 - Sending emails to 1 daycares
+2025-07-28 12:10:59.507 | INFO     | src.outreach.email_sender:send_batch:48 - Sender: AI Marketing Outreach <plodyoapp@gmail.com>
+2025-07-28 12:11:09.557 | ERROR    | src.outreach.email_sender:_send_email:191 - Timeout connecting to smtp.gmail.com:587
+2025-07-28 12:11:09.557 | ERROR    | src.outreach.email_sender:_send_email:216 - Error preparing email for tinytotsandtoddlers@gmail.com: 'EmailSender' object has no attribute '_record_outreach_attempt'
+2025-07-28 12:11:09.557 | INFO     | __main__:test_specific_email_sending:32 - Result: [{'target': 'Tiny Tots and Toddlers Learning Academy & Preschool', 'email': 'tinytotsandtoddlers@gmail.com', 'status': 'failed', 'sender': 'AI Marketing Outreach <plodyoapp@gmail.com>'}]
+2025-07-28 12:11:09.557 | ERROR    | __main__:test_specific_email_sending:37 - Failed to send email to Tiny Tots and Toddlers Learning Academy & Preschool
+2025-07-28 12:11:09.557 | ERROR    | __main__:test_specific_email_sending:39 - Error details: Unknown error
+2025-07-28 12:12:29.656 | INFO     | __main__:test_specific_email_sending:26 - Testing email to: Tiny Tots and Toddlers Learning Academy & Preschool <tinytotsandtoddlers@gmail.com>
+2025-07-28 12:12:29.656 | INFO     | src.outreach.email_sender:send_batch:47 - Sending emails to 1 daycares
+2025-07-28 12:12:29.656 | INFO     | src.outreach.email_sender:send_batch:48 - Sender: AI Marketing Outreach <plodyoapp@gmail.com>
+2025-07-28 12:12:39.663 | ERROR    | src.outreach.email_sender:_send_email:191 - Timeout connecting to smtp.gmail.com:587
+2025-07-28 12:12:41.508 | ERROR    | src.outreach.email_sender:_record_outreach_attempt:278 - Database error when recording outreach attempt: 'notes' is an invalid keyword argument for OutreachHistory
+2025-07-28 12:12:42.790 | INFO     | __main__:test_specific_email_sending:32 - Result: [{'target': 'Tiny Tots and Toddlers Learning Academy & Preschool', 'email': 'tinytotsandtoddlers@gmail.com', 'status': 'failed', 'sender': 'AI Marketing Outreach <plodyoapp@gmail.com>'}]
+2025-07-28 12:12:42.790 | ERROR    | __main__:test_specific_email_sending:37 - Failed to send email to Tiny Tots and Toddlers Learning Academy & Preschool
+2025-07-28 12:12:42.790 | ERROR    | __main__:test_specific_email_sending:39 - Error details: Unknown error
+2025-07-28 12:13:17.002 | INFO     | __main__:test_specific_email_sending:26 - Testing email to: Tiny Tots and Toddlers Learning Academy & Preschool <tinytotsandtoddlers@gmail.com>
+2025-07-28 12:13:17.002 | INFO     | src.outreach.email_sender:send_batch:47 - Sending emails to 1 daycares
+2025-07-28 12:13:17.002 | INFO     | src.outreach.email_sender:send_batch:48 - Sender: AI Marketing Outreach <plodyoapp@gmail.com>
+2025-07-28 12:13:27.032 | ERROR    | src.outreach.email_sender:_send_email:191 - Timeout connecting to smtp.gmail.com:587
+2025-07-28 12:13:29.208 | INFO     | src.outreach.email_sender:_record_outreach_attempt:274 - Recorded outreach attempt for tinytotsandtoddlers@gmail.com despite sending failure
+2025-07-28 12:13:30.512 | INFO     | __main__:test_specific_email_sending:32 - Result: [{'target': 'Tiny Tots and Toddlers Learning Academy & Preschool', 'email': 'tinytotsandtoddlers@gmail.com', 'status': 'failed', 'sender': 'AI Marketing Outreach <plodyoapp@gmail.com>'}]
+2025-07-28 12:13:30.512 | ERROR    | __main__:test_specific_email_sending:37 - Failed to send email to Tiny Tots and Toddlers Learning Academy & Preschool
+2025-07-28 12:13:30.512 | ERROR    | __main__:test_specific_email_sending:39 - Error details: Unknown error
+2025-07-28 12:15:46.071 | INFO     | __main__:test_specific_email_sending:26 - Testing email to: KLC Academy and Learning Center <605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com>
+2025-07-28 12:15:46.074 | INFO     | src.outreach.email_sender:send_batch:47 - Sending emails to 1 daycares
+2025-07-28 12:15:46.075 | INFO     | src.outreach.email_sender:send_batch:48 - Sender: AI Marketing Outreach <plodyoapp@gmail.com>
+2025-07-28 12:15:56.104 | ERROR    | src.outreach.email_sender:_send_email:191 - Timeout connecting to smtp.gmail.com:587
+2025-07-28 12:15:58.840 | INFO     | src.outreach.email_sender:_record_outreach_attempt:274 - Recorded outreach attempt for 605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com despite sending failure
+2025-07-28 12:16:00.140 | INFO     | __main__:test_specific_email_sending:32 - Result: [{'target': 'KLC Academy and Learning Center', 'email': '605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com', 'status': 'failed', 'sender': 'AI Marketing Outreach <plodyoapp@gmail.com>'}]
+2025-07-28 12:16:00.140 | ERROR    | __main__:test_specific_email_sending:37 - Failed to send email to KLC Academy and Learning Center
+2025-07-28 12:16:00.140 | ERROR    | __main__:test_specific_email_sending:39 - Error details: Unknown error
+2025-07-28 12:17:56.591 | INFO     | __main__:test_specific_email_sending:26 - Testing email to: KLC Academy and Learning Center <605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com>
+2025-07-28 12:17:56.591 | INFO     | src.outreach.email_sender:send_batch:47 - Sending emails to 1 daycares
+2025-07-28 12:17:56.591 | INFO     | src.outreach.email_sender:send_batch:48 - Sender: AI Marketing Outreach <plodyoapp@gmail.com>
+2025-07-28 12:18:06.604 | ERROR    | src.outreach.email_sender:_send_email:191 - Timeout connecting to smtp.gmail.com:587
+2025-07-28 12:18:08.598 | INFO     | src.outreach.email_sender:_record_outreach_attempt:274 - Recorded outreach attempt for 605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com despite sending failure
+2025-07-28 12:18:09.543 | INFO     | __main__:test_specific_email_sending:32 - Result: [{'target': 'KLC Academy and Learning Center', 'email': '605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com', 'status': 'failed', 'sender': 'AI Marketing Outreach <plodyoapp@gmail.com>'}]
+2025-07-28 12:18:09.543 | ERROR    | __main__:test_specific_email_sending:37 - Failed to send email to KLC Academy and Learning Center
+2025-07-28 12:18:09.543 | ERROR    | __main__:test_specific_email_sending:39 - Error details: Unknown error
